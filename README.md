@@ -11,7 +11,7 @@ running at a time. Content saved in one world is available in the other after sw
 
 ## How it works
 
-Compendiums declared by a *module* live in `Data/modules/compendium-manager/packs/` and are
+Compendiums declared by a *module* live in `Data/modules/sargas-compendium-manager/packs/` and are
 visible to every world that enables the module. World compendiums live inside the world folder
 and cannot be shared. That is the whole sharing mechanism — the rest is bookkeeping.
 
@@ -29,7 +29,7 @@ written against the mirror survive the world switch.
 In Foundry: **Add-on Modules -> Install Module**, paste this manifest URL, and click Install:
 
 ```
-https://github.com/sargas79/compendium-manager/releases/latest/download/module.json
+https://github.com/sargas79/sargas-compendium-manager/releases/latest/download/module.json
 ```
 
 That URL always points at the newest release, so Foundry's update check works from then on.
@@ -50,7 +50,7 @@ scripts, packages `module.zip`, and publishes both as release assets.
 
 ### Manual install (development)
 
-Copy this folder into your Foundry user data directory as `Data/modules/compendium-manager`.
+Copy this folder into your Foundry user data directory as `Data/modules/sargas-compendium-manager`.
 The folder name must match the module id exactly.
 
 ## First-time setup
@@ -101,7 +101,7 @@ for your decision. The depth of the ladder is configurable.
 
 | Location | Written? |
 |---|---|
-| `Data/modules/compendium-manager/packs/` | yes — its own shared library |
+| `Data/modules/sargas-compendium-manager/packs/` | yes — its own shared library |
 | World database (mirror packs, folders, documents) | yes — via public document APIs |
 | World `compendiumConfiguration` setting | yes — unlock and ownership, for managed packs only |
 | Foundry application files | **never** |
@@ -130,14 +130,14 @@ ownership you set and applies it in the other world. Turn it off and each world 
 | Carry pack ownership between worlds | on | apply one world's pack ownership in the other |
 | Confirm deletions | on | ask before removing anything from the shared library |
 | Duplicate detection | id + source + name | how hard the merge wizard looks for existing content |
-| Debug logging | off | verbose `[compendium-manager]` console output |
+| Debug logging | off | verbose `[sargas-compendium-manager]` console output |
 
 Managed document types are toggled in the manager window.
 
 ## API
 
 ```js
-const api = game.modules.get("compendium-manager").api;
+const api = game.modules.get("sargas-compendium-manager").api;
 await api.syncNow();          // push then pull
 await api.push();             // local edits -> shared library
 await api.pull();             // shared library -> local mirror

@@ -1,5 +1,5 @@
 {
-  "id": "compendium-manager",
+  "id": "sargas-compendium-manager",
   "title": "Compendium Manager",
   "description": "Shares one compendium library between two Pathfinder 2e worlds on the same Foundry installation. Content saved in one world is available in the other after switching. Designed for installations where only one world runs at a time.",
   "version": "0.1.0",
@@ -8,13 +8,13 @@
       "name": "Diego Vescovini"
     }
   ],
-  "url": "https://github.com/sargas79/compendium-manager",
-  "manifest": "https://github.com/sargas79/compendium-manager/releases/latest/download/module.json",
-  "download": "https://github.com/sargas79/compendium-manager/releases/download/v0.1.0/module.zip",
-  "readme": "https://github.com/sargas79/compendium-manager/blob/main/README.md",
-  "changelog": "https://github.com/sargas79/compendium-manager/blob/main/CHANGELOG.md",
-  "license": "https://github.com/sargas79/compendium-manager/blob/main/LICENSE",
-  "bugs": "https://github.com/sargas79/compendium-manager/issues",
+  "url": "https://github.com/sargas79/sargas-compendium-manager",
+  "manifest": "https://github.com/sargas79/sargas-compendium-manager/releases/latest/download/module.json",
+  "download": "https://github.com/sargas79/sargas-compendium-manager/releases/download/v0.1.0/module.zip",
+  "readme": "https://github.com/sargas79/sargas-compendium-manager/blob/main/README.md",
+  "changelog": "https://github.com/sargas79/sargas-compendium-manager/blob/main/CHANGELOG.md",
+  "license": "https://github.com/sargas79/sargas-compendium-manager/blob/main/LICENSE",
+  "bugs": "https://github.com/sargas79/sargas-compendium-manager/issues",
   "compatibility": {
     "minimum": "14",
     "verified": "14"

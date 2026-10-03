@@ -123,7 +123,7 @@
       },
       "Debug": {
         "Name": "Debug logging",
-        "Hint": "Write verbose [compendium-manager] messages to the browser console."
+        "Hint": "Write verbose [sargas-compendium-manager] messages to the browser console."
       },
       "Manager": {
         "Name": "Compendium Manager",

@@ -45,7 +45,7 @@ jobs:
 
       - name: Verify the manifest
         run: |
-          test "$(jq -r '.id' module.json)" = "compendium-manager"
+          test "$(jq -r '.id' module.json)" = "sargas-compendium-manager"
           test -f scripts/module.js
           test -f lang/en.json
           test -f styles/compendium-manager.css
