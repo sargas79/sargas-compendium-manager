@@ -3,7 +3,7 @@
  * Nothing here reads game state, so it is safe to import at any lifecycle stage.
  */
 
-export const MODULE_ID = "compendium-manager";
+export const MODULE_ID = "sargas-compendium-manager";
 
 /** The module is explicitly scoped to Pathfinder Second Edition (see PLAN.md §2.1). */
 export const REQUIRED_SYSTEM = "pf2e";
@@ -55,7 +55,7 @@ export function definitionForMirror(collection) {
   return MANAGED_TYPES.find((d) => mirrorPackId(d.key) === collection) ?? null;
 }
 
-/** @param {string} collection A pack collection id such as `compendium-manager.cm-items`. */
+/** @param {string} collection A pack collection id such as `sargas-compendium-manager.cm-items`. */
 export function definitionForShared(collection) {
   return MANAGED_TYPES.find((d) => sharedPackId(d.key) === collection) ?? null;
 }
