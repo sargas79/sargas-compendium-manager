@@ -61,9 +61,11 @@ jobs:
           TAG: ${{ github.ref_name }}
           REPO: ${{ github.repository }}
         run: |
-          NOTES="Data-only companion to Compendium Manager. Foundry installs it automatically as a
-          dependency; you should not need this manifest URL directly:
-          https://github.com/${REPO}/releases/download/${TAG}/library.json"
+          NOTES="Data-only companion to Compendium Manager, which Foundry installs automatically
+          as a dependency. Install Compendium Manager instead:
+          https://github.com/${REPO}/releases/latest/download/module.json
+
+          Keep this release: Foundry downloads the library from it."
 
           if gh release view "${TAG}" >/dev/null 2>&1; then
             echo "Release ${TAG} already exists - updating its assets."

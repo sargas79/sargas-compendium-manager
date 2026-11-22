@@ -11,7 +11,8 @@ Foundry replaces a module's whole folder when it installs an update, and a modul
 packs live inside that folder. Keeping the content in a module that is released once and never
 updated means updating Compendium Manager can never touch it.
 
-Its manifest URL points at the fixed `library-v1` release, so Foundry never offers an update.
+Foundry installs it automatically as a dependency of Compendium Manager, from the fixed
+`library-v1` release, and never offers it an update. You never need to install it by hand.
 
 ## Adding packs
 
