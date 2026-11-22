@@ -1,47 +1,47 @@
-<section class="cm-import standard-form">
+<section class="scm-import standard-form">
 
   {{#if isPick}}
-  <p class="notes">{{localize "COMPENDIUM_MANAGER.Import.Intro"}}</p>
+  <p class="notes">{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Intro"}}</p>
 
   {{#if hasSources}}
-  <div class="cm-pick">
+  <div class="scm-pick">
     {{#each groups}}
     <fieldset>
       <legend>{{this.label}}</legend>
       {{#each this.packs}}
-      <label class="cm-pick-row">
+      <label class="scm-pick-row">
         <input type="checkbox" data-source="{{this.collection}}" {{#if this.checked}}checked{{/if}}>
-        <span class="cm-pick-title">{{this.title}}</span>
-        <span class="cm-muted">{{this.origin}}</span>
-        <span class="cm-num">{{this.count}}</span>
+        <span class="scm-pick-title">{{this.title}}</span>
+        <span class="scm-muted">{{this.origin}}</span>
+        <span class="scm-num">{{this.count}}</span>
       </label>
       {{/each}}
     </fieldset>
     {{/each}}
   </div>
   {{else}}
-  <p class="cm-muted">{{localize "COMPENDIUM_MANAGER.Import.NoSources"}}</p>
+  <p class="scm-muted">{{localize "SARGAS_COMPENDIUM_MANAGER.Import.NoSources"}}</p>
   {{/if}}
 
-  <label class="cm-option">
+  <label class="scm-option">
     <input type="checkbox" data-include-all {{#if includeAll}}checked{{/if}}>
-    {{localize "COMPENDIUM_MANAGER.Import.IncludeAll"}}
+    {{localize "SARGAS_COMPENDIUM_MANAGER.Import.IncludeAll"}}
   </label>
 
-  <details class="cm-options">
-    <summary>{{localize "COMPENDIUM_MANAGER.Import.Options"}}</summary>
-    <label class="cm-option">
+  <details class="scm-options">
+    <summary>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Options"}}</summary>
+    <label class="scm-option">
       <input type="checkbox" data-rewrite-links {{#if rewriteLinks}}checked{{/if}}>
-      {{localize "COMPENDIUM_MANAGER.Import.RewriteLinks"}}
+      {{localize "SARGAS_COMPENDIUM_MANAGER.Import.RewriteLinks"}}
     </label>
-    <p class="notes">{{localize "COMPENDIUM_MANAGER.Import.RewriteLinksHint"}}</p>
-    <label class="cm-option">
+    <p class="notes">{{localize "SARGAS_COMPENDIUM_MANAGER.Import.RewriteLinksHint"}}</p>
+    <label class="scm-option">
       <input type="checkbox" data-lock-sources {{#if lockSources}}checked{{/if}}>
-      {{localize "COMPENDIUM_MANAGER.Import.LockSources"}}
+      {{localize "SARGAS_COMPENDIUM_MANAGER.Import.LockSources"}}
     </label>
-    <p class="notes">{{localize "COMPENDIUM_MANAGER.Import.LockSourcesHint"}}</p>
-    <label class="cm-option">
-      {{localize "COMPENDIUM_MANAGER.Import.DepthLabel"}}
+    <p class="notes">{{localize "SARGAS_COMPENDIUM_MANAGER.Import.LockSourcesHint"}}</p>
+    <label class="scm-option">
+      {{localize "SARGAS_COMPENDIUM_MANAGER.Import.DepthLabel"}}
       <select data-depth>
         {{#each depths}}
         <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
@@ -50,53 +50,53 @@
     </label>
   </details>
 
-  <footer class="cm-actions">
+  <footer class="scm-actions">
     <button type="button" data-action="preview" {{#unless selectedCount}}disabled{{/unless}} {{#if busy}}disabled{{/if}}>
       <i class="fa-solid {{#if busy}}fa-spinner fa-spin{{else}}fa-magnifying-glass{{/if}}"></i>
-      {{localize "COMPENDIUM_MANAGER.Import.Preview"}}
+      {{localize "SARGAS_COMPENDIUM_MANAGER.Import.Preview"}}
       (<span data-selected-count>{{selectedCount}}</span>)
     </button>
   </footer>
   {{/if}}
 
   {{#if isPreview}}
-  <ul class="cm-counts">
-    <li class="cm-count-new"><strong>{{totals.new}}</strong> {{localize "COMPENDIUM_MANAGER.Import.Status.new"}}</li>
-    <li class="cm-count-identical"><strong>{{totals.identical}}</strong> {{localize "COMPENDIUM_MANAGER.Import.Status.identical"}}</li>
-    <li class="cm-count-decision"><strong>{{totals.decision}}</strong> {{localize "COMPENDIUM_MANAGER.Import.Status.decision"}}</li>
+  <ul class="scm-counts">
+    <li class="scm-count-new"><strong>{{totals.new}}</strong> {{localize "SARGAS_COMPENDIUM_MANAGER.Import.Status.new"}}</li>
+    <li class="scm-count-identical"><strong>{{totals.identical}}</strong> {{localize "SARGAS_COMPENDIUM_MANAGER.Import.Status.identical"}}</li>
+    <li class="scm-count-decision"><strong>{{totals.decision}}</strong> {{localize "SARGAS_COMPENDIUM_MANAGER.Import.Status.decision"}}</li>
   </ul>
 
   {{#if hasDecisions}}
-  <p class="notes">{{localize "COMPENDIUM_MANAGER.Import.DecisionsHint"}}</p>
-  <div class="cm-bulk">
-    <span>{{localize "COMPENDIUM_MANAGER.Import.BulkLabel"}}</span>
-    <button type="button" data-action="setAll" data-value="library">{{localize "COMPENDIUM_MANAGER.Import.Resolution.library"}}</button>
-    <button type="button" data-action="setAll" data-value="world">{{localize "COMPENDIUM_MANAGER.Import.Resolution.world"}}</button>
-    <button type="button" data-action="setAll" data-value="both">{{localize "COMPENDIUM_MANAGER.Import.Resolution.both"}}</button>
+  <p class="notes">{{localize "SARGAS_COMPENDIUM_MANAGER.Import.DecisionsHint"}}</p>
+  <div class="scm-bulk">
+    <span>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.BulkLabel"}}</span>
+    <button type="button" data-action="setAll" data-value="library">{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Resolution.library"}}</button>
+    <button type="button" data-action="setAll" data-value="world">{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Resolution.world"}}</button>
+    <button type="button" data-action="setAll" data-value="both">{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Resolution.both"}}</button>
   </div>
   {{else}}
-  <p class="notes">{{localize "COMPENDIUM_MANAGER.Import.NoDecisions"}}</p>
+  <p class="notes">{{localize "SARGAS_COMPENDIUM_MANAGER.Import.NoDecisions"}}</p>
   {{/if}}
 
-  <div class="cm-preview">
+  <div class="scm-preview">
     {{#each packs}}
-    <details class="cm-preview-pack" {{#if this.open}}open{{/if}}>
+    <details class="scm-preview-pack" {{#if this.open}}open{{/if}}>
       <summary>
         <strong>{{this.sourceLabel}}</strong> &rarr; {{this.targetLabel}}
-        <span class="cm-muted">
-          {{this.counts.new}} {{localize "COMPENDIUM_MANAGER.Import.Short.new"}} ·
-          {{this.counts.identical}} {{localize "COMPENDIUM_MANAGER.Import.Short.identical"}} ·
-          {{this.counts.decision}} {{localize "COMPENDIUM_MANAGER.Import.Short.decision"}}
+        <span class="scm-muted">
+          {{this.counts.new}} {{localize "SARGAS_COMPENDIUM_MANAGER.Import.Short.new"}} ·
+          {{this.counts.identical}} {{localize "SARGAS_COMPENDIUM_MANAGER.Import.Short.identical"}} ·
+          {{this.counts.decision}} {{localize "SARGAS_COMPENDIUM_MANAGER.Import.Short.decision"}}
         </span>
       </summary>
       {{#if this.hasDecisions}}
-      <table class="cm-table">
+      <table class="scm-table">
         <thead>
           <tr>
-            <th>{{localize "COMPENDIUM_MANAGER.Import.ThisWorld"}}</th>
-            <th>{{localize "COMPENDIUM_MANAGER.Import.InLibrary"}}</th>
-            <th>{{localize "COMPENDIUM_MANAGER.Import.MatchedBy"}}</th>
-            <th>{{localize "COMPENDIUM_MANAGER.Import.Action"}}</th>
+            <th>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.ThisWorld"}}</th>
+            <th>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.InLibrary"}}</th>
+            <th>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.MatchedBy"}}</th>
+            <th>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Action"}}</th>
           </tr>
         </thead>
         <tbody>
@@ -104,12 +104,12 @@
           <tr>
             <td>{{this.name}}</td>
             <td>{{this.targetName}}</td>
-            <td class="cm-muted">{{this.via}}</td>
+            <td class="scm-muted">{{this.via}}</td>
             <td>
               <select data-resolution data-key="{{this.key}}">
-                <option value="library" {{#if (cmEq this.resolution "library")}}selected{{/if}}>{{localize "COMPENDIUM_MANAGER.Import.Resolution.library"}}</option>
-                <option value="world" {{#if (cmEq this.resolution "world")}}selected{{/if}}>{{localize "COMPENDIUM_MANAGER.Import.Resolution.world"}}</option>
-                <option value="both" {{#if (cmEq this.resolution "both")}}selected{{/if}}>{{localize "COMPENDIUM_MANAGER.Import.Resolution.both"}}</option>
+                <option value="library" {{#if (scmEq this.resolution "library")}}selected{{/if}}>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Resolution.library"}}</option>
+                <option value="world" {{#if (scmEq this.resolution "world")}}selected{{/if}}>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Resolution.world"}}</option>
+                <option value="both" {{#if (scmEq this.resolution "both")}}selected{{/if}}>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Resolution.both"}}</option>
               </select>
             </td>
           </tr>
@@ -117,51 +117,51 @@
         </tbody>
       </table>
       {{else}}
-      <p class="cm-muted">{{localize "COMPENDIUM_MANAGER.Import.PackNoDecisions"}}</p>
+      <p class="scm-muted">{{localize "SARGAS_COMPENDIUM_MANAGER.Import.PackNoDecisions"}}</p>
       {{/if}}
     </details>
     {{/each}}
   </div>
 
-  <footer class="cm-actions">
+  <footer class="scm-actions">
     <button type="button" data-action="back">
-      <i class="fa-solid fa-arrow-left"></i> {{localize "COMPENDIUM_MANAGER.Import.Back"}}
+      <i class="fa-solid fa-arrow-left"></i> {{localize "SARGAS_COMPENDIUM_MANAGER.Import.Back"}}
     </button>
-    <button type="button" data-action="apply" class="cm-primary">
-      <i class="fa-solid fa-file-import"></i> {{localize "COMPENDIUM_MANAGER.Import.Apply"}}
+    <button type="button" data-action="apply" class="scm-primary">
+      <i class="fa-solid fa-file-import"></i> {{localize "SARGAS_COMPENDIUM_MANAGER.Import.Apply"}}
       (<span data-writes>{{writes}}</span>)
     </button>
   </footer>
   {{/if}}
 
   {{#if isWorking}}
-  <div class="cm-working">
-    <p>{{localize "COMPENDIUM_MANAGER.Import.Working"}}</p>
+  <div class="scm-working">
+    <p>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Working"}}</p>
     <progress data-progress value="0" max="1"></progress>
-    <p class="cm-muted" data-progress-label></p>
+    <p class="scm-muted" data-progress-label></p>
   </div>
   {{/if}}
 
   {{#if isDone}}
-  <div class="cm-done">
-    <h3>{{localize "COMPENDIUM_MANAGER.Import.DoneTitle"}}</h3>
+  <div class="scm-done">
+    <h3>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.DoneTitle"}}</h3>
     <ul>
-      <li>{{localize "COMPENDIUM_MANAGER.Import.Done.added" count=result.added}}</li>
-      {{#if result.replaced}}<li>{{localize "COMPENDIUM_MANAGER.Import.Done.replaced" count=result.replaced}}</li>{{/if}}
-      {{#if result.keptBoth}}<li>{{localize "COMPENDIUM_MANAGER.Import.Done.keptBoth" count=result.keptBoth}}</li>{{/if}}
-      <li>{{localize "COMPENDIUM_MANAGER.Import.Done.skipped" count=result.skipped}}</li>
-      {{#if result.folders}}<li>{{localize "COMPENDIUM_MANAGER.Import.Done.folders" count=result.folders}}</li>{{/if}}
-      {{#if result.locked}}<li>{{localize "COMPENDIUM_MANAGER.Import.Done.locked" count=result.locked}}</li>{{/if}}
-      {{#if result.failed}}<li class="cm-error">{{localize "COMPENDIUM_MANAGER.Import.Done.failed" count=result.failed}}</li>{{/if}}
+      <li>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Done.added" count=result.added}}</li>
+      {{#if result.replaced}}<li>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Done.replaced" count=result.replaced}}</li>{{/if}}
+      {{#if result.keptBoth}}<li>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Done.keptBoth" count=result.keptBoth}}</li>{{/if}}
+      <li>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Done.skipped" count=result.skipped}}</li>
+      {{#if result.folders}}<li>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Done.folders" count=result.folders}}</li>{{/if}}
+      {{#if result.locked}}<li>{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Done.locked" count=result.locked}}</li>{{/if}}
+      {{#if result.failed}}<li class="scm-error">{{localize "SARGAS_COMPENDIUM_MANAGER.Import.Done.failed" count=result.failed}}</li>{{/if}}
     </ul>
-    <p class="notes">{{localize "COMPENDIUM_MANAGER.Import.DoneHint"}}</p>
+    <p class="notes">{{localize "SARGAS_COMPENDIUM_MANAGER.Import.DoneHint"}}</p>
   </div>
-  <footer class="cm-actions">
+  <footer class="scm-actions">
     <button type="button" data-action="again">
-      <i class="fa-solid fa-plus"></i> {{localize "COMPENDIUM_MANAGER.Import.Again"}}
+      <i class="fa-solid fa-plus"></i> {{localize "SARGAS_COMPENDIUM_MANAGER.Import.Again"}}
     </button>
     <button type="button" data-action="close">
-      <i class="fa-solid fa-check"></i> {{localize "COMPENDIUM_MANAGER.Import.Close"}}
+      <i class="fa-solid fa-check"></i> {{localize "SARGAS_COMPENDIUM_MANAGER.Import.Close"}}
     </button>
   </footer>
   {{/if}}

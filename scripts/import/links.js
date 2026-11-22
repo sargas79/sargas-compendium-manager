@@ -4,7 +4,7 @@
  * Imported documents keep their ids, so a link such as
  *   @UUID[Compendium.world.homebrew.Item.abcdefghijklmnop]
  * can be pointed at the shared copy by swapping the pack:
- *   @UUID[Compendium.sargas-compendium-library.cm-items.Item.abcdefghijklmnop]
+ *   @UUID[Compendium.sargas-compendium-manager-library.scm-items.Item.abcdefghijklmnop]
  *
  * This is a plain string replacement over the whole document, so it reaches journal text, item
  * descriptions, and macro code alike without reading any system data path. Only links to

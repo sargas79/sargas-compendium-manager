@@ -53,11 +53,11 @@ jobs:
           test "$(jq -r '.id' module.json)" = "sargas-compendium-manager"
           test -f scripts/module.js
           test -f lang/en.json
-          test -f styles/compendium-manager.css
+          test -f styles/sargas-compendium-manager.css
           # Content lives in the separate library module (library/, released by
           # release-library.yml). Packs shipped here would be wiped on every update.
           test "$(jq -r '.packs // [] | length' module.json)" = "0"             || { echo "The code module must not declare packs; put them in library/module.json"; exit 1; }
-          jq -e '.relationships.requires[] | select(.id == "sargas-compendium-library")' module.json >/dev/null             || { echo "module.json must require sargas-compendium-library"; exit 1; }
+          jq -e '.relationships.requires[] | select(.id == "sargas-compendium-manager-library")' module.json >/dev/null             || { echo "module.json must require sargas-compendium-manager-library"; exit 1; }
           echo "Manifest looks sane."
 
       - name: Syntax-check the scripts

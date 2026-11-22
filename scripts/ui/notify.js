@@ -2,11 +2,11 @@ import { MODULE_ID } from "../constants.js";
 
 /**
  * Localisation helper. Every player-visible string goes through here.
- * @param {string} key Key below `COMPENDIUM_MANAGER.`
+ * @param {string} key Key below `SARGAS_COMPENDIUM_MANAGER.`
  * @param {object} [data]
  */
 export function t(key, data) {
-  const full = `COMPENDIUM_MANAGER.${key}`;
+  const full = `SARGAS_COMPENDIUM_MANAGER.${key}`;
   return data ? game.i18n.format(full, data) : game.i18n.localize(full);
 }
 

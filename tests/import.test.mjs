@@ -72,7 +72,7 @@ test("sourceReference and normalisedName", () => {
 /*  Link rewriting                               */
 /* -------------------------------------------- */
 
-const LIB = "sargas-compendium-library.cm-items";
+const LIB = "sargas-compendium-manager-library.scm-items";
 
 function mapWithItem() {
   const links = createLinkMap();
@@ -103,9 +103,9 @@ test("rewrites untyped and legacy @Compendium links", () => {
 
 test("keeps embedded document paths after the rewritten part", () => {
   const links = createLinkMap();
-  links.add("world.lore", ID_A, { collection: "sargas-compendium-library.cm-journals", type: "JournalEntry", id: ID_A });
+  links.add("world.lore", ID_A, { collection: "sargas-compendium-manager-library.scm-journals", type: "JournalEntry", id: ID_A });
   const { data } = links.rewrite({ t: `@UUID[Compendium.world.lore.JournalEntry.${ID_A}.JournalEntryPage.${ID_B}]` });
-  assert.equal(data.t, `@UUID[Compendium.sargas-compendium-library.cm-journals.JournalEntry.${ID_A}.JournalEntryPage.${ID_B}]`);
+  assert.equal(data.t, `@UUID[Compendium.sargas-compendium-manager-library.scm-journals.JournalEntry.${ID_A}.JournalEntryPage.${ID_B}]`);
 });
 
 test("leaves unmapped links, other packs, and prefixes of longer pack names alone", () => {

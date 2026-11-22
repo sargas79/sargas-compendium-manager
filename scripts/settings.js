@@ -12,8 +12,8 @@ export function registerSettings() {
   const register = (key, data) => game.settings.register(MODULE_ID, key, data);
 
   register(SETTINGS.syncPackOwnership, {
-    name: "COMPENDIUM_MANAGER.Settings.SyncPackOwnership.Name",
-    hint: "COMPENDIUM_MANAGER.Settings.SyncPackOwnership.Hint",
+    name: "SARGAS_COMPENDIUM_MANAGER.Settings.SyncPackOwnership.Name",
+    hint: "SARGAS_COMPENDIUM_MANAGER.Settings.SyncPackOwnership.Hint",
     scope: "world",
     config: true,
     type: Boolean,
@@ -21,8 +21,8 @@ export function registerSettings() {
   });
 
   register(SETTINGS.debug, {
-    name: "COMPENDIUM_MANAGER.Settings.Debug.Name",
-    hint: "COMPENDIUM_MANAGER.Settings.Debug.Hint",
+    name: "SARGAS_COMPENDIUM_MANAGER.Settings.Debug.Name",
+    hint: "SARGAS_COMPENDIUM_MANAGER.Settings.Debug.Hint",
     scope: "client",
     config: true,
     type: Boolean,

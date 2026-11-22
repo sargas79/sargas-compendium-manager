@@ -1,7 +1,7 @@
 {
-  "id": "sargas-compendium-library",
-  "title": "Compendium Manager — Shared Library",
-  "description": "Data-only companion to Compendium Manager. Holds the shared compendium packs that every world enabling it can see. It contains no code and is never updated, so Foundry never replaces its folder and your content is safe from module updates.",
+  "id": "sargas-compendium-manager-library",
+  "title": "Sargas Compendium Manager — Shared Library",
+  "description": "Data-only companion to Sargas Compendium Manager. Holds the shared compendium packs that every world enabling it can see. It contains no code and is never updated, so Foundry never replaces its folder and your content is safe from module updates.",
   "version": "1.0.0",
   "authors": [
     {
@@ -9,8 +9,8 @@
     }
   ],
   "url": "https://github.com/sargas79/sargas-compendium-manager",
-  "manifest": "https://github.com/sargas79/sargas-compendium-manager/releases/download/library-v1/library.json",
-  "download": "https://github.com/sargas79/sargas-compendium-manager/releases/download/library-v1/library.zip",
+  "manifest": "https://github.com/sargas79/sargas-compendium-manager/releases/download/library-v2/library.json",
+  "download": "https://github.com/sargas79/sargas-compendium-manager/releases/download/library-v2/library.zip",
   "license": "https://github.com/sargas79/sargas-compendium-manager/blob/main/LICENSE",
   "compatibility": {
     "minimum": "14",
@@ -27,9 +27,9 @@
   },
   "packs": [
     {
-      "name": "cm-actors",
+      "name": "scm-actors",
       "label": "Shared Actors",
-      "path": "packs/cm-actors",
+      "path": "packs/scm-actors",
       "type": "Actor",
       "system": "pf2e",
       "ownership": {
@@ -39,9 +39,9 @@
       }
     },
     {
-      "name": "cm-items",
+      "name": "scm-items",
       "label": "Shared Items",
-      "path": "packs/cm-items",
+      "path": "packs/scm-items",
       "type": "Item",
       "system": "pf2e",
       "ownership": {
@@ -51,9 +51,9 @@
       }
     },
     {
-      "name": "cm-journals",
+      "name": "scm-journals",
       "label": "Shared Journals",
-      "path": "packs/cm-journals",
+      "path": "packs/scm-journals",
       "type": "JournalEntry",
       "ownership": {
         "PLAYER": "NONE",
@@ -62,9 +62,9 @@
       }
     },
     {
-      "name": "cm-tables",
+      "name": "scm-tables",
       "label": "Shared Roll Tables",
-      "path": "packs/cm-tables",
+      "path": "packs/scm-tables",
       "type": "RollTable",
       "ownership": {
         "PLAYER": "NONE",
@@ -73,9 +73,9 @@
       }
     },
     {
-      "name": "cm-macros",
+      "name": "scm-macros",
       "label": "Shared Macros",
-      "path": "packs/cm-macros",
+      "path": "packs/scm-macros",
       "type": "Macro",
       "ownership": {
         "PLAYER": "NONE",
@@ -84,9 +84,9 @@
       }
     },
     {
-      "name": "cm-scenes",
+      "name": "scm-scenes",
       "label": "Shared Scenes",
-      "path": "packs/cm-scenes",
+      "path": "packs/scm-scenes",
       "type": "Scene",
       "ownership": {
         "PLAYER": "NONE",
@@ -95,9 +95,9 @@
       }
     },
     {
-      "name": "cm-cards",
+      "name": "scm-cards",
       "label": "Shared Cards",
-      "path": "packs/cm-cards",
+      "path": "packs/scm-cards",
       "type": "Cards",
       "ownership": {
         "PLAYER": "NONE",
@@ -108,16 +108,16 @@
   ],
   "packFolders": [
     {
-      "name": "Shared Library",
+      "name": "Sargas Compendium Manager",
       "sorting": "m",
       "packs": [
-        "cm-actors",
-        "cm-items",
-        "cm-journals",
-        "cm-tables",
-        "cm-macros",
-        "cm-scenes",
-        "cm-cards"
+        "scm-actors",
+        "scm-items",
+        "scm-journals",
+        "scm-tables",
+        "scm-macros",
+        "scm-scenes",
+        "scm-cards"
       ]
     }
   ]

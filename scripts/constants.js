@@ -9,33 +9,33 @@ export const MODULE_ID = "sargas-compendium-manager";
  * The data-only module that holds the shared packs. It is released once and never updated, so
  * Foundry never replaces its folder (and the content inside it). See PLAN-v2.md §2.2.
  */
-export const LIBRARY_ID = "sargas-compendium-library";
+export const LIBRARY_ID = "sargas-compendium-manager-library";
 
 /** The module is explicitly scoped to Pathfinder Second Edition (see PLAN.md §2.1). */
 export const REQUIRED_SYSTEM = "pf2e";
 
 /** Fixed id of the meta document that carries cross-world state inside the shared library. */
-export const META_DOC_ID = "cmmanifestmeta01";
+export const META_DOC_ID = "sargascmmanifest";
 
 /** Name of the meta document. The leading dot keeps it at the top of the directory listing. */
-export const META_DOC_NAME = ".cm-manifest";
+export const META_DOC_NAME = ".sargas-compendium-manager";
 
 /**
  * Every shared document type, one library pack each.
  * `key` is the pack name in the library module's manifest.
  */
 export const MANAGED_TYPES = [
-  { type: "Actor", key: "cm-actors", label: "Actors" },
-  { type: "Item", key: "cm-items", label: "Items" },
-  { type: "JournalEntry", key: "cm-journals", label: "Journal Entries" },
-  { type: "RollTable", key: "cm-tables", label: "Roll Tables" },
-  { type: "Macro", key: "cm-macros", label: "Macros" },
-  { type: "Scene", key: "cm-scenes", label: "Scenes" },
-  { type: "Cards", key: "cm-cards", label: "Cards" }
+  { type: "Actor", key: "scm-actors", label: "Actors" },
+  { type: "Item", key: "scm-items", label: "Items" },
+  { type: "JournalEntry", key: "scm-journals", label: "Journal Entries" },
+  { type: "RollTable", key: "scm-tables", label: "Roll Tables" },
+  { type: "Macro", key: "scm-macros", label: "Macros" },
+  { type: "Scene", key: "scm-scenes", label: "Scenes" },
+  { type: "Cards", key: "scm-cards", label: "Cards" }
 ];
 
 /** The journal pack always exists: it stores the meta document. */
-export const META_PACK_KEY = "cm-journals";
+export const META_PACK_KEY = "scm-journals";
 
 /** @param {string} key */
 export function sharedPackId(key) {
@@ -47,7 +47,7 @@ export function definitionForType(type) {
   return MANAGED_TYPES.find((d) => d.type === type) ?? null;
 }
 
-/** @param {string} collection A pack collection id such as `sargas-compendium-library.cm-items`. */
+/** @param {string} collection A pack collection id such as `sargas-compendium-manager-library.scm-items`. */
 export function definitionForShared(collection) {
   return MANAGED_TYPES.find((d) => sharedPackId(d.key) === collection) ?? null;
 }

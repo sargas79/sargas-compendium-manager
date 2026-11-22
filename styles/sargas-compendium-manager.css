@@ -2,134 +2,134 @@
    Deliberately minimal: the module inherits whatever theme the world uses, so only layout
    and a few state colours are defined here. */
 
-.compendium-manager .cm-table {
+.sargas-compendium-manager .scm-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 0.75rem;
 }
 
-.compendium-manager .cm-table th,
-.compendium-manager .cm-table td {
+.sargas-compendium-manager .scm-table th,
+.sargas-compendium-manager .scm-table td {
   padding: 0.25rem 0.4rem;
   text-align: left;
   border-bottom: 1px solid var(--color-border-light-tertiary, rgba(0, 0, 0, 0.1));
 }
 
-.compendium-manager .cm-num {
+.sargas-compendium-manager .scm-num {
   text-align: right;
   min-width: 3rem;
 }
 
-.compendium-manager .cm-table .cm-num {
+.sargas-compendium-manager .scm-table .scm-num {
   width: 5rem;
 }
 
-.compendium-manager .cm-error {
+.sargas-compendium-manager .scm-error {
   color: var(--color-level-error, #a33);
   font-size: var(--font-size-12, 0.8rem);
   margin-left: 0.4rem;
 }
 
-.compendium-manager .cm-muted {
+.sargas-compendium-manager .scm-muted {
   opacity: 0.65;
   font-size: var(--font-size-12, 0.8rem);
 }
 
-.compendium-manager .cm-actions {
+.sargas-compendium-manager .scm-actions {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
   margin-top: 0.5rem;
 }
 
-.compendium-manager .cm-primary {
+.sargas-compendium-manager .scm-primary {
   font-weight: bold;
 }
 
 /* Status page */
 
-.compendium-manager .cm-health {
+.sargas-compendium-manager .scm-health {
   padding: 0.4rem 0.6rem;
   border-radius: 4px;
   margin-bottom: 0.75rem;
 }
 
-.compendium-manager .cm-health p {
+.sargas-compendium-manager .scm-health p {
   margin: 0.2rem 0;
 }
 
-.compendium-manager .cm-health-ok {
+.sargas-compendium-manager .scm-health-ok {
   color: var(--color-level-success, #2a7a2a);
 }
 
-.compendium-manager .cm-health-error {
+.sargas-compendium-manager .scm-health-error {
   border: 1px solid var(--color-level-error, #a33);
 }
 
-.compendium-manager .cm-worlds {
+.sargas-compendium-manager .scm-worlds {
   list-style: none;
   margin: 0 0 0.75rem;
   padding: 0;
 }
 
-.compendium-manager .cm-worlds li {
+.sargas-compendium-manager .scm-worlds li {
   display: flex;
   justify-content: space-between;
   gap: 0.5rem;
   padding: 0.15rem 0;
 }
 
-.compendium-manager a[data-action="openPack"] {
+.sargas-compendium-manager a[data-action="openPack"] {
   cursor: pointer;
 }
 
-.cm-open-manager {
+.scm-open-manager {
   flex: 0 0 100%;
 }
 
 /* Import window */
 
-.compendium-manager-import .window-content {
+.sargas-compendium-manager-import .window-content {
   overflow-y: auto;
 }
 
-.compendium-manager .cm-pick {
+.sargas-compendium-manager .scm-pick {
   max-height: 22rem;
   overflow-y: auto;
   margin-bottom: 0.5rem;
 }
 
-.compendium-manager .cm-pick fieldset {
+.sargas-compendium-manager .scm-pick fieldset {
   margin: 0 0 0.5rem;
 }
 
-.compendium-manager .cm-pick-row {
+.sargas-compendium-manager .scm-pick-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.1rem 0;
 }
 
-.compendium-manager .cm-pick-title {
+.sargas-compendium-manager .scm-pick-title {
   flex: 1;
 }
 
-.compendium-manager .cm-option {
+.sargas-compendium-manager .scm-option {
   display: flex;
   align-items: center;
   gap: 0.4rem;
   margin: 0.25rem 0;
 }
 
-.compendium-manager .cm-options {
+.sargas-compendium-manager .scm-options {
   margin: 0.5rem 0;
 }
 
-.compendium-manager .cm-options .notes {
+.sargas-compendium-manager .scm-options .notes {
   margin: 0 0 0.4rem 1.6rem;
 }
 
-.compendium-manager .cm-counts {
+.sargas-compendium-manager .scm-counts {
   display: flex;
   gap: 1.25rem;
   list-style: none;
@@ -138,11 +138,11 @@
   flex-wrap: wrap;
 }
 
-.compendium-manager .cm-count-decision strong {
+.sargas-compendium-manager .scm-count-decision strong {
   color: var(--color-level-warning, #b86e00);
 }
 
-.compendium-manager .cm-bulk {
+.sargas-compendium-manager .scm-bulk {
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -150,20 +150,20 @@
   margin-bottom: 0.5rem;
 }
 
-.compendium-manager .cm-preview {
+.sargas-compendium-manager .scm-preview {
   max-height: 24rem;
   overflow-y: auto;
 }
 
-.compendium-manager .cm-preview-pack {
+.sargas-compendium-manager .scm-preview-pack {
   margin-bottom: 0.4rem;
 }
 
-.compendium-manager .cm-preview-pack summary {
+.sargas-compendium-manager .scm-preview-pack summary {
   cursor: pointer;
   padding: 0.2rem 0;
 }
 
-.compendium-manager .cm-working progress {
+.sargas-compendium-manager .scm-working progress {
   width: 100%;
 }

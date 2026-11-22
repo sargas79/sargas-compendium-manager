@@ -4,6 +4,9 @@ Status: **approved 2026-11-22 — one library, no sync (§2), with a separate da
 migration.** Implemented and released as 2.0.0 (the v0.1 design had been published as v1.0.x);
 not yet run inside Foundry.
 
+> 2.1.0 renamed every identifier to carry the Sargas name: the library is now
+> `sargas-compendium-manager-library` with `scm-*` packs. Names below are as they were in 2.0.0.
+
 Goal from the brief: enable the module in both worlds and they stay in sync, with no buttons
 to press, no counts to watch, and no per-compendium wizard runs before it is usable.
 

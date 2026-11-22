@@ -31,7 +31,7 @@ function systemSupported() {
 
 function registerHandlebarsHelpers() {
   // Own helper rather than relying on a core one that may not exist in every version.
-  Handlebars.registerHelper("cmEq", (a, b) => a === b);
+  Handlebars.registerHelper("scmEq", (a, b) => a === b);
 }
 
 /** @returns {Promise<boolean>} false when the library belongs to another system */
@@ -55,9 +55,9 @@ Hooks.once("init", () => {
   registerHandlebarsHelpers();
 
   game.settings.registerMenu(MODULE_ID, "manager", {
-    name: "COMPENDIUM_MANAGER.Settings.Manager.Name",
-    label: "COMPENDIUM_MANAGER.Settings.Manager.Label",
-    hint: "COMPENDIUM_MANAGER.Settings.Manager.Hint",
+    name: "SARGAS_COMPENDIUM_MANAGER.Settings.Manager.Name",
+    label: "SARGAS_COMPENDIUM_MANAGER.Settings.Manager.Label",
+    hint: "SARGAS_COMPENDIUM_MANAGER.Settings.Manager.Hint",
     icon: "fa-solid fa-book-atlas",
     type: managerMenuClass(),
     restricted: true
@@ -140,11 +140,11 @@ Hooks.on("renderCompendiumDirectory", (_app, element) => {
   try {
     const root = element instanceof HTMLElement ? element : element?.[0];
     const header = root?.querySelector(".directory-header, .header-actions");
-    if (!header || root.querySelector(".cm-open-manager")) return;
+    if (!header || root.querySelector(".scm-open-manager")) return;
 
     const button = document.createElement("button");
     button.type = "button";
-    button.classList.add("cm-open-manager");
+    button.classList.add("scm-open-manager");
     button.innerHTML = `<i class="fa-solid fa-book-atlas"></i> ${t("App.Button")}`;
     button.addEventListener("click", () => openManager());
     header.append(button);

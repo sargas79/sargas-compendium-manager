@@ -2,6 +2,26 @@
 
 All notable changes to this module are documented here.
 
+## [2.1.0] — Unreleased
+
+Every identifier now carries the Sargas Compendium Manager name, so nothing can clash with
+another package that uses a generic name.
+
+### Changed
+- Titles: **Sargas Compendium Manager** and **Sargas Compendium Manager — Shared Library**; the
+  sidebar folder is now *Sargas Compendium Manager*.
+- The Shared Library's id is now `sargas-compendium-manager-library` (was
+  `sargas-compendium-library`), released from `library-v2`. Foundry installs it as a new module
+  on update. Pack names are now `scm-*` (were `cm-*`), so shared document UUIDs become
+  `Compendium.sargas-compendium-manager-library.scm-<type>.<Type>.<id>`.
+- Internal names that live in shared namespaces: localisation keys (`SARGAS_COMPENDIUM_MANAGER.*`),
+  CSS classes (`sargas-compendium-manager`, `scm-*`), window ids, the Handlebars helper
+  (`scmEq`), the stylesheet file name, and the library's bookkeeping entry.
+
+### Upgrading
+- The 2.0.0 library module (`sargas-compendium-library`) is no longer used. Import anything you
+  stored in it with **Bring in compendiums…**, then uninstall it.
+
 ## [2.0.0] — 2026-11-22
 
 Released as 2.0.0 because 0.1.0 was published as v1.0.0 and v1.0.1, and a lower version would
