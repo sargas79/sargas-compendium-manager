@@ -2,7 +2,21 @@
 
 All notable changes to this module are documented here.
 
-## [2.1.0] — Unreleased
+## [2.1.1] — 2026-11-22
+
+### Added
+- The status page lists the old 1.0.x "… (Shared Library)" compendiums still in the world, says
+  whether each is empty, already copied into the shared library, or still holds entries that are
+  not, and offers to remove the first two kinds after confirming. A notice on load points to it.
+- The shared compendiums are put in a *Sargas Compendium Manager* folder at the top of the
+  compendium sidebar, once per world, if they are not in a folder already.
+
+### Fixed
+- The **Sargas Compendium Manager** button in the Compendium sidebar was stretched to the height
+  of the whole header, showing as an empty dark box with its label hidden behind the compendium
+  list. It now sits on its own line under *Create Compendium* / *Create Folder*.
+
+## [2.1.0] — 2026-11-22
 
 Every identifier now carries the Sargas Compendium Manager name, so nothing can clash with
 another package that uses a generic name.

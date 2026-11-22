@@ -1,6 +1,12 @@
 import { LIBRARY_ID, MODULE_ID, REQUIRED_SYSTEM, isPrimaryGM } from "./constants.js";
 import { SETTINGS, getSetting, registerSettings } from "./settings.js";
-import { applyPackConfiguration, captureOwnership, isCompendiumConfigurationSetting } from "./packs/config.js";
+import {
+  applyPackConfiguration,
+  captureOwnership,
+  isCompendiumConfigurationSetting,
+  placeLibraryInFolder
+} from "./packs/config.js";
+import { leftoverPacks } from "./packs/leftovers.js";
 import { ensureMeta, readMeta, recordWorld, updateMeta } from "./meta.js";
 import { checkLibrary, recordCounts, watchLibraryCounts } from "./health.js";
 import { applyImport, previewImport } from "./import/importer.js";
@@ -116,6 +122,11 @@ Hooks.once("ready", async () => {
     }
 
     await applyPackConfiguration();
+    try {
+      await placeLibraryInFolder();
+    } catch (err) {
+      log.error("Unable to put the shared compendiums in their sidebar folder.", err);
+    }
     // Registered after configuring, so the module's own writes are not recorded as the GM's.
     Hooks.on("updateSetting", (setting) => {
       if (!isCompendiumConfigurationSetting(setting)) return;
@@ -126,6 +137,9 @@ Hooks.once("ready", async () => {
     refreshManager();
     log.info(`Active in world "${game.world.id}".`);
     if (getSetting(SETTINGS.debug)) info("App.Ready");
+
+    const leftovers = leftoverPacks().length;
+    if (leftovers) info("Leftovers.Notice", { count: leftovers });
 
     if (health.status === "ok") await maybeShowWelcome(health.counts);
   } catch (err) {
@@ -139,7 +153,9 @@ Hooks.on("renderCompendiumDirectory", (_app, element) => {
   if (!game.user.isGM || !active) return;
   try {
     const root = element instanceof HTMLElement ? element : element?.[0];
-    const header = root?.querySelector(".directory-header, .header-actions");
+    // Prefer the row holding "Create Compendium" / "Create Folder"; the outer header stacks its
+    // children vertically, where a full-width button would stretch to the header's height.
+    const header = root?.querySelector(".header-actions") ?? root?.querySelector(".directory-header");
     if (!header || root.querySelector(".scm-open-manager")) return;
 
     const button = document.createElement("button");

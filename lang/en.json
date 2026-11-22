@@ -27,6 +27,22 @@
       "AcceptTitle": "Accept the library as it is now?",
       "AcceptBody": "The warning will clear and this world will treat the library's current contents as normal. Nothing is restored or deleted."
     },
+    "Leftovers": {
+      "Title": "Old compendiums from version 1.0.x",
+      "Intro": "Version 1.0.x made a copy of the library in each world, named “… (Shared Library)”. They are not the shared library and nothing uses them any more.",
+      "Empty": "empty",
+      "Copied": "{count} entries, all already in the shared library",
+      "Missing": "{count} entries not in the shared library yet",
+      "Failed": "could not be checked; see the console",
+      "ImportFirst": "Bring in the compendiums that still hold entries before removing them: use “Bring in compendiums…” below. Once everything is in the shared library, they can be removed here.",
+      "Remove": "Remove {count} old compendiums",
+      "ConfirmTitle": "Remove the old compendiums?",
+      "ConfirmBody": "These {count} compendiums from version 1.0.x will be deleted from this world. Everything in them is already in the shared library.",
+      "ConfirmPermanent": "This cannot be undone. Your other world keeps its own copies until you remove them there too.",
+      "Removed": "Removed {count} old compendiums.",
+      "Kept": "{count} old compendiums were kept because they hold entries that are not in the shared library.",
+      "Notice": "Found {count} old “… (Shared Library)” compendiums from version 1.0.x. Open Sargas Compendium Manager to remove them."
+    },
     "Welcome": {
       "Title": "Shared library ready",
       "Empty": "The shared library is ready and empty.",

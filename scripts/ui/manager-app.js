@@ -1,8 +1,9 @@
-import { MANAGED_TYPES, MODULE_ID, sharedPackId } from "../constants.js";
+import { MANAGED_TYPES, MODULE_ID, isPrimaryGM, sharedPackId } from "../constants.js";
 import { readMeta } from "../meta.js";
 import { acceptCurrentLibrary, checkLibrary, lastHealth } from "../health.js";
+import { inspectLeftovers, leftoverPacks, removeLeftovers } from "../packs/leftovers.js";
 import { openImport, onImportComplete } from "./import-app.js";
-import { confirm, t } from "./notify.js";
+import { confirm, info, t, warn } from "./notify.js";
 
 /**
  * The status page. With one shared library there is nothing to sync, so this only answers
@@ -30,7 +31,8 @@ function defineApplication() {
         import: CompendiumManagerApp.#onImport,
         recheck: CompendiumManagerApp.#onRecheck,
         accept: CompendiumManagerApp.#onAccept,
-        openPack: CompendiumManagerApp.#onOpenPack
+        openPack: CompendiumManagerApp.#onOpenPack,
+        removeLeftovers: CompendiumManagerApp.#onRemoveLeftovers
       }
     };
 
@@ -63,7 +65,20 @@ function defineApplication() {
         }))
         .sort((a, b) => Number(b.current) - Number(a.current));
 
+      // Only inspected when there are any: inspecting reads every entry of each leftover.
+      const leftovers = leftoverPacks().length ? await inspectLeftovers() : [];
+      const removable = leftovers.filter((row) => row.removable && !row.failed);
+      this._removableLeftovers = removable.map((row) => ({ collection: row.collection, label: row.label }));
+
       return {
+        leftovers: leftovers.map((row) => ({
+          ...row,
+          state: row.failed ? "failed" : row.count === 0 ? "empty" : row.removable ? "copied" : "missing"
+        })),
+        hasLeftovers: leftovers.length > 0,
+        removableCount: removable.length,
+        canRemove: removable.length > 0 && isPrimaryGM(),
+        leftoversNeedImport: leftovers.some((row) => !row.removable && !row.failed),
         health,
         ok: health.status === "ok",
         missingModule: health.status === "missing-module",
@@ -91,6 +106,21 @@ function defineApplication() {
       });
       if (!approved) return;
       await acceptCurrentLibrary();
+      this.render();
+    }
+
+    static async #onRemoveLeftovers() {
+      const rows = this._removableLeftovers ?? [];
+      if (!rows.length) return;
+      const list = rows.map((row) => `<li>${foundry.utils.escapeHTML(row.label)}</li>`).join("");
+      const approved = await confirm({
+        title: t("Leftovers.ConfirmTitle"),
+        content: `<p>${t("Leftovers.ConfirmBody", { count: rows.length })}</p><ul>${list}</ul><p>${t("Leftovers.ConfirmPermanent")}</p>`
+      });
+      if (!approved) return;
+      const { removed, kept } = await removeLeftovers(rows.map((row) => row.collection));
+      if (removed.length) info("Leftovers.Removed", { count: removed.length });
+      if (kept.length) warn("Leftovers.Kept", { count: kept.length });
       this.render();
     }
 
