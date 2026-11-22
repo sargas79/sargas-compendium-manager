@@ -17,11 +17,11 @@ function defineApplication() {
 
   return class CompendiumManagerApp extends HandlebarsApplicationMixin(ApplicationV2) {
     static DEFAULT_OPTIONS = {
-      id: "compendium-manager-app",
-      classes: ["compendium-manager"],
+      id: "sargas-compendium-manager-app",
+      classes: ["sargas-compendium-manager"],
       tag: "div",
       window: {
-        title: "COMPENDIUM_MANAGER.App.Title",
+        title: "SARGAS_COMPENDIUM_MANAGER.App.Title",
         icon: "fa-solid fa-book-atlas",
         resizable: true
       },

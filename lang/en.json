@@ -1,27 +1,27 @@
 {
-  "COMPENDIUM_MANAGER": {
+  "SARGAS_COMPENDIUM_MANAGER": {
     "App": {
-      "Title": "Compendium Manager",
-      "Button": "Compendium Manager",
+      "Title": "Sargas Compendium Manager",
+      "Button": "Sargas Compendium Manager",
       "Pack": "Shared compendium",
       "Documents": "Entries",
       "PackMissing": "missing",
       "PackEmptied": "emptied",
       "Worlds": "Worlds using this library",
       "ThisWorld": "this world",
-      "HowItWorks": "Every world with Compendium Manager enabled opens these same compendiums. Edit them directly: there is nothing to sync, and switching worlds needs no preparation. Only run one world at a time.",
-      "Backups": "Back up the library from Foundry's setup screen: Backups → Compendium Manager — Shared Library.",
+      "HowItWorks": "Every world with Sargas Compendium Manager enabled opens these same compendiums. Edit them directly: there is nothing to sync, and switching worlds needs no preparation. Only run one world at a time.",
+      "Backups": "Back up the library from Foundry's setup screen: Backups → Sargas Compendium Manager — Shared Library.",
       "Import": "Bring in compendiums…",
-      "Ready": "Compendium Manager is active."
+      "Ready": "Sargas Compendium Manager is active."
     },
     "Health": {
       "Ok": "The shared library is healthy.",
       "MissingModuleTitle": "The Shared Library module is not enabled in this world.",
-      "MissingModuleBody": "Compendium Manager keeps its content in the companion module “Compendium Manager — Shared Library”. Enable it in Manage Modules and reload.",
+      "MissingModuleBody": "Sargas Compendium Manager keeps its content in the companion module “Sargas Compendium Manager — Shared Library”. Enable it in Manage Modules and reload.",
       "ShrankTitle": "The shared library looks emptied.",
       "ShrankPack": "{label}: had {was} entries the last time this world saw it, now has none.",
-      "MetaMissing": "The library's bookkeeping entry (.cm-manifest) is gone.",
-      "ShrankBody": "Nothing has been written to the library. Check that the folder Data/modules/sargas-compendium-library is intact, or restore it from Foundry's Backups screen, then restart the world. If you emptied it on purpose, accept the current state.",
+      "MetaMissing": "The library's bookkeeping entry (.sargas-compendium-manager) is gone.",
+      "ShrankBody": "Nothing has been written to the library. Check that the folder Data/modules/sargas-compendium-manager-library is intact, or restore it from Foundry's Backups screen, then restart the world. If you emptied it on purpose, accept the current state.",
       "Recheck": "Check again",
       "Accept": "I emptied it on purpose",
       "AcceptTitle": "Accept the library as it is now?",
@@ -32,7 +32,7 @@
       "Empty": "The shared library is ready and empty.",
       "HasContent": "The shared library is ready. It already holds:",
       "FromWorlds": "(shared with {worlds})",
-      "HowItWorks": "Look for the “Shared Library” folder in the Compendium sidebar. Everything you put in those compendiums is available in every world that enables Compendium Manager — there is nothing to sync.",
+      "HowItWorks": "Look for the “Sargas Compendium Manager” folder in the Compendium sidebar. Everything you put in those compendiums is available in every world that enables Sargas Compendium Manager — there is nothing to sync.",
       "Offer": "Do you want to bring in compendiums you already have in this world?",
       "Import": "Choose compendiums…",
       "Later": "Not now",
@@ -98,7 +98,7 @@
       "Progress": "{done} of {total}",
       "Failed": "The import failed. See the console for details.",
       "SomeFailed": "{count} entries could not be written. See the console for details.",
-      "LibraryUnhealthy": "Importing is disabled while the shared library health check is failing. Open the Compendium Manager window for details.",
+      "LibraryUnhealthy": "Importing is disabled while the shared library health check is failing. Open the Sargas Compendium Manager window for details.",
       "DoneTitle": "Import complete",
       "Done": {
         "added": "{count} added",
@@ -114,14 +114,14 @@
       "Close": "Done"
     },
     "Errors": {
-      "WrongSystem": "Compendium Manager only supports the {system} system and is inactive in this world.",
-      "SystemMismatch": "The shared library was created for the {recorded} system but this world runs {current}. Compendium Manager will not configure it, to protect your data.",
+      "WrongSystem": "Sargas Compendium Manager only supports the {system} system and is inactive in this world.",
+      "SystemMismatch": "The shared library was created for the {recorded} system but this world runs {current}. Sargas Compendium Manager will not configure it, to protect your data.",
       "VersionDrift": "The shared library was last used with system version {recorded}; this world runs {current}. Keeping both worlds on the same version is recommended.",
-      "LibraryMissing": "Compendium Manager needs the companion module {id}. Enable “Compendium Manager — Shared Library” in Manage Modules and reload.",
-      "LibraryShrank": "The shared library looks emptied since this world last saw it. Nothing has been written. Open Compendium Manager for details.",
+      "LibraryMissing": "Sargas Compendium Manager needs the companion module {id}. Enable “Sargas Compendium Manager — Shared Library” in Manage Modules and reload.",
+      "LibraryShrank": "The shared library looks emptied since this world last saw it. Nothing has been written. Open Sargas Compendium Manager for details.",
       "MissingPacks": "These shared compendiums are missing from the library install: {packs}.",
       "NotPrimaryGM": "Another GM is the active GM in this world; only they can import.",
-      "StartupFailed": "Compendium Manager could not start. See the console for details."
+      "StartupFailed": "Sargas Compendium Manager could not start. See the console for details."
     },
     "Settings": {
       "SyncPackOwnership": {
@@ -133,7 +133,7 @@
         "Hint": "Write verbose [sargas-compendium-manager] messages to the browser console."
       },
       "Manager": {
-        "Name": "Compendium Manager",
+        "Name": "Sargas Compendium Manager",
         "Label": "Open Manager",
         "Hint": "Library health, contents, and bringing in existing compendiums."
       }

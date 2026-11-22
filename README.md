@@ -1,4 +1,4 @@
-# Compendium Manager
+# Sargas Compendium Manager
 
 Shares one compendium library between two Foundry VTT worlds on the same installation.
 
@@ -16,23 +16,23 @@ Compendiums declared by a *module* live in `Data/modules/<module>/packs/` and ar
 every world that enables the module. World compendiums live inside the world folder and cannot
 be shared. That is the whole sharing mechanism.
 
-The shared compendiums (*Shared Items*, *Shared Actors*, …, grouped in a **Shared Library**
-sidebar folder) are declared by a companion module, **Compendium Manager — Shared Library**
-(`sargas-compendium-library`). Both worlds open those same packs and you edit them directly.
+The shared compendiums (*Shared Items*, *Shared Actors*, …, grouped in a **Sargas Compendium Manager**
+sidebar folder) are declared by a companion module, **Sargas Compendium Manager — Shared Library**
+(`sargas-compendium-manager-library`). Both worlds open those same packs and you edit them directly.
 There is one copy, so it cannot drift.
 
 A document in the library has the same UUID in every world
-(`Compendium.sargas-compendium-library.cm-items.Item.<id>`), so links, macros, and actor
+(`Compendium.sargas-compendium-manager-library.scm-items.Item.<id>`), so links, macros, and actor
 references written in one world work in the other.
 
 ### Why two modules
 
 Foundry replaces a module's whole folder when it installs an update, and a module's compendium
 content lives inside that folder. The library module holds only the packs, is released once,
-and never updates, so updating Compendium Manager can never touch your content. Foundry
+and never updates, so updating Sargas Compendium Manager can never touch your content. Foundry
 installs it for you as a dependency.
 
-### What Compendium Manager itself does
+### What Sargas Compendium Manager itself does
 
 Only the things Foundry keeps per world:
 
@@ -50,26 +50,38 @@ Module**, paste it, and click Install:
 https://github.com/sargas79/sargas-compendium-manager/releases/latest/download/module.json
 ```
 
-Foundry installs **Compendium Manager — Shared Library** along with it, as a dependency. The URL
+Foundry installs **Sargas Compendium Manager — Shared Library** along with it, as a dependency. The URL
 always points at the newest release, so Foundry's update check keeps working from then on.
 
-Then, in each world, enable *Compendium Manager* in **Manage Modules** and accept the prompt to
+Then, in each world, enable *Sargas Compendium Manager* in **Manage Modules** and accept the prompt to
 also enable the Shared Library.
 
-If *Compendium Manager — Shared Library* is missing from **Add-on Modules** after installing,
-uninstall Compendium Manager and install it again from the same URL; Foundry offers to install
+If *Sargas Compendium Manager — Shared Library* is missing from **Add-on Modules** after installing,
+uninstall Sargas Compendium Manager and install it again from the same URL; Foundry offers to install
 the dependency during installation.
 
 ### Updating from 1.0.x
 
-Click **Update** next to Compendium Manager in **Add-on Modules**, then check the Shared Library
+Click **Update** next to Sargas Compendium Manager in **Add-on Modules**, then check the Shared Library
 was installed alongside it (see above). Compendium content stored by 1.0.x is not carried over.
+
+### Updating from 2.0.0
+
+2.1.0 gives every identifier a `sargas-` prefix so it cannot clash with another package, and that
+includes the Shared Library's id: it is now `sargas-compendium-manager-library` (it was
+`sargas-compendium-library`). Foundry treats that as a new module and installs it alongside the
+update.
+
+The old library module stays installed and is no longer used. If you put anything in it, bring it
+over with **Bring in compendiums…** (tick *Also show module and system compendiums* to see the old
+packs), then uninstall *Compendium Manager — Shared Library* from **Add-on Modules**. Links to the
+old library's entries change with it.
 
 ### Manual install (development)
 
 Copy this repository into your Foundry user data directory as
 `Data/modules/sargas-compendium-manager`, and copy its `library/` folder as
-`Data/modules/sargas-compendium-library`. Folder names must match the module ids exactly.
+`Data/modules/sargas-compendium-manager-library`. Folder names must match the module ids exactly.
 
 ### Releasing
 
@@ -77,12 +89,13 @@ Code releases are built by GitHub Actions from a version tag. The tag is the sou
 the version number, so `module.json` does not need editing first:
 
 ```
-git tag v2.0.0
-git push origin v2.0.0
+git tag v2.1.0
+git push origin v2.1.0
 ```
 
-The library module was released **once**, as `library-v1`, from `library/` as committed. Foundry
-fetches it from that release whenever it installs Compendium Manager, so keep that release, and
+The library module is released **once per library id**, from `library/` as committed. The
+current one is `library-v2` (`library-v1` was the earlier `sargas-compendium-library`). Foundry
+fetches it from that release whenever it installs Sargas Compendium Manager, so keep that release, and
 do not publish a second library tag or bump the library's version unless you mean every install
 to replace its content. `release-library.yml` explains why.
 
@@ -99,7 +112,7 @@ to replace its content. `release-library.yml` explains why.
 Open a shared compendium, drag things in, edit them. Delete with Foundry's normal delete. That is
 all: whatever you saved is there in the other world the next time you open it.
 
-The **Compendium Manager** button in the compendium sidebar opens a status page: library health,
+The **Sargas Compendium Manager** button in the compendium sidebar opens a status page: library health,
 how many entries each shared compendium holds, which worlds use the library, and **Bring in
 compendiums…**
 
@@ -139,7 +152,7 @@ again is harmless: everything already imported shows as *already in the library*
   If one that had content is suddenly empty, or the library's bookkeeping entry is gone, you get
   one clear error and the module writes nothing until you look. The status page explains what to
   check, and has *I emptied it on purpose* for when you did.
-- **Backups** — back up the library from Foundry's setup screen: **Backups → Compendium Manager —
+- **Backups** — back up the library from Foundry's setup screen: **Backups → Sargas Compendium Manager —
   Shared Library**. Do this before your first big import.
 - The import always previews first, asks before writing, and never deletes from either side.
 - The module refuses to run outside pf2e, and refuses to configure a library that records a
@@ -150,7 +163,7 @@ again is harmless: everything already imported shows as *already in the library*
 
 | Location | Written? |
 |---|---|
-| `Data/modules/sargas-compendium-library/packs/` | yes — through the import, and by you editing the shared compendiums |
+| `Data/modules/sargas-compendium-manager-library/packs/` | yes — through the import, and by you editing the shared compendiums |
 | World `compendiumConfiguration` setting | yes — unlock and ownership of the shared compendiums; lock of imported-from compendiums only if you tick that option |
 | World settings of this module | yes — the health-check reference counts and the "welcome shown" flag |
 | Foundry application files | **never** |
@@ -195,7 +208,7 @@ Run these in Foundry; results are not claimed here (see *Status*).
 
 1. Installing from the manifest URL installs both modules; enabling the manager prompts to
    enable the library. No console errors on load.
-2. The shared compendiums appear in a *Shared Library* sidebar folder and are unlocked.
+2. The shared compendiums appear in a *Sargas Compendium Manager* sidebar folder and are unlocked.
 3. Round trip: create an item in world A → switch to B → present and editable → edit → back to
    A → edit present.
 4. A journal link to a shared item resolves in both worlds.
@@ -208,7 +221,7 @@ Run these in Foundry; results are not claimed here (see *Status*).
 10. Pack ownership set to OBSERVER in A is in effect in B.
 11. Health check: empty a shared compendium outside Foundry (or restore an empty library) → error
     on next start, nothing written; *I emptied it on purpose* clears it.
-12. Updating Compendium Manager from its manifest leaves the library's content untouched.
+12. Updating Sargas Compendium Manager from its manifest leaves the library's content untouched.
 13. A non-GM user triggers no writes and sees only permitted packs; with two GMs connected only
     the active GM writes.
 14. Enabling in a non-pf2e world refuses cleanly and creates nothing.
@@ -216,7 +229,7 @@ Run these in Foundry; results are not claimed here (see *Status*).
 
 ## Status
 
-Version 2.0.0, released 2026-11-22. Written against the published Foundry v14 API documentation. The scripts are
+Version 2.1.0. Written against the published Foundry v14 API documentation. The scripts are
 syntax-checked and the import's matching, hashing, and link rewriting are unit-tested
 (`node --test tests/*.test.mjs`), but **the module has not yet run inside Foundry**. Work through
 the checklist with the console open; the assumptions to confirm first are that a GM can write to
@@ -226,7 +239,7 @@ automatically (test 1).
 ## Coming from 1.0.x (the v0.1 design)
 
 The 1.0.x releases kept a second copy of everything in per-world "mirror" compendiums (`… (Shared Library)`).
-2.0.0 does not use them. If you have any, they are left alone: bring their content in with
+2.x does not use them. If you have any, they are left alone: bring their content in with
 **Bring in compendiums…** if you want it, then delete them by hand. Content that 1.0.x stored in
 its own shared packs lived inside the manager's folder, which the update replaces.
 

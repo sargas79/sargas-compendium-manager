@@ -1,45 +1,45 @@
-<section class="cm-manager standard-form">
+<section class="scm-manager standard-form">
 
   {{#if ok}}
-  <p class="cm-health cm-health-ok">
-    <i class="fa-solid fa-circle-check"></i> {{localize "COMPENDIUM_MANAGER.Health.Ok"}}
+  <p class="scm-health scm-health-ok">
+    <i class="fa-solid fa-circle-check"></i> {{localize "SARGAS_COMPENDIUM_MANAGER.Health.Ok"}}
   </p>
   {{/if}}
 
   {{#if missingModule}}
-  <div class="cm-health cm-health-error">
-    <p><i class="fa-solid fa-triangle-exclamation"></i> <strong>{{localize "COMPENDIUM_MANAGER.Health.MissingModuleTitle"}}</strong></p>
-    <p>{{localize "COMPENDIUM_MANAGER.Health.MissingModuleBody"}}</p>
+  <div class="scm-health scm-health-error">
+    <p><i class="fa-solid fa-triangle-exclamation"></i> <strong>{{localize "SARGAS_COMPENDIUM_MANAGER.Health.MissingModuleTitle"}}</strong></p>
+    <p>{{localize "SARGAS_COMPENDIUM_MANAGER.Health.MissingModuleBody"}}</p>
   </div>
   {{/if}}
 
   {{#if shrank}}
-  <div class="cm-health cm-health-error">
-    <p><i class="fa-solid fa-triangle-exclamation"></i> <strong>{{localize "COMPENDIUM_MANAGER.Health.ShrankTitle"}}</strong></p>
+  <div class="scm-health scm-health-error">
+    <p><i class="fa-solid fa-triangle-exclamation"></i> <strong>{{localize "SARGAS_COMPENDIUM_MANAGER.Health.ShrankTitle"}}</strong></p>
     <ul>
       {{#each health.shrunk}}
-      <li>{{localize "COMPENDIUM_MANAGER.Health.ShrankPack" label=this.label was=this.was}}</li>
+      <li>{{localize "SARGAS_COMPENDIUM_MANAGER.Health.ShrankPack" label=this.label was=this.was}}</li>
       {{/each}}
-      {{#if health.metaMissing}}<li>{{localize "COMPENDIUM_MANAGER.Health.MetaMissing"}}</li>{{/if}}
+      {{#if health.metaMissing}}<li>{{localize "SARGAS_COMPENDIUM_MANAGER.Health.MetaMissing"}}</li>{{/if}}
     </ul>
-    <p>{{localize "COMPENDIUM_MANAGER.Health.ShrankBody"}}</p>
-    <div class="cm-actions">
+    <p>{{localize "SARGAS_COMPENDIUM_MANAGER.Health.ShrankBody"}}</p>
+    <div class="scm-actions">
       <button type="button" data-action="recheck">
-        <i class="fa-solid fa-rotate"></i> {{localize "COMPENDIUM_MANAGER.Health.Recheck"}}
+        <i class="fa-solid fa-rotate"></i> {{localize "SARGAS_COMPENDIUM_MANAGER.Health.Recheck"}}
       </button>
       <button type="button" data-action="accept">
-        {{localize "COMPENDIUM_MANAGER.Health.Accept"}}
+        {{localize "SARGAS_COMPENDIUM_MANAGER.Health.Accept"}}
       </button>
     </div>
   </div>
   {{/if}}
 
   {{#unless missingModule}}
-  <table class="cm-table">
+  <table class="scm-table">
     <thead>
       <tr>
-        <th>{{localize "COMPENDIUM_MANAGER.App.Pack"}}</th>
-        <th class="cm-num">{{localize "COMPENDIUM_MANAGER.App.Documents"}}</th>
+        <th>{{localize "SARGAS_COMPENDIUM_MANAGER.App.Pack"}}</th>
+        <th class="scm-num">{{localize "SARGAS_COMPENDIUM_MANAGER.App.Documents"}}</th>
       </tr>
     </thead>
     <tbody>
@@ -47,37 +47,37 @@
       <tr>
         <td>
           {{#if this.missing}}
-          {{this.label}} <span class="cm-error">{{localize "COMPENDIUM_MANAGER.App.PackMissing"}}</span>
+          {{this.label}} <span class="scm-error">{{localize "SARGAS_COMPENDIUM_MANAGER.App.PackMissing"}}</span>
           {{else}}
           <a data-action="openPack" data-collection="{{this.collection}}">{{this.label}}</a>
-          {{#if this.shrunk}}<span class="cm-error">{{localize "COMPENDIUM_MANAGER.App.PackEmptied"}}</span>{{/if}}
+          {{#if this.shrunk}}<span class="scm-error">{{localize "SARGAS_COMPENDIUM_MANAGER.App.PackEmptied"}}</span>{{/if}}
           {{/if}}
         </td>
-        <td class="cm-num">{{this.count}}</td>
+        <td class="scm-num">{{this.count}}</td>
       </tr>
       {{/each}}
     </tbody>
   </table>
 
   {{#if hasWorlds}}
-  <h3>{{localize "COMPENDIUM_MANAGER.App.Worlds"}}</h3>
-  <ul class="cm-worlds">
+  <h3>{{localize "SARGAS_COMPENDIUM_MANAGER.App.Worlds"}}</h3>
+  <ul class="scm-worlds">
     {{#each worlds}}
     <li>
-      <span>{{this.title}}{{#if this.current}} <span class="cm-muted">({{localize "COMPENDIUM_MANAGER.App.ThisWorld"}})</span>{{/if}}</span>
-      <span class="cm-muted">{{this.when}}</span>
+      <span>{{this.title}}{{#if this.current}} <span class="scm-muted">({{localize "SARGAS_COMPENDIUM_MANAGER.App.ThisWorld"}})</span>{{/if}}</span>
+      <span class="scm-muted">{{this.when}}</span>
     </li>
     {{/each}}
   </ul>
   {{/if}}
 
-  <p class="notes">{{localize "COMPENDIUM_MANAGER.App.HowItWorks"}}</p>
-  <p class="notes">{{localize "COMPENDIUM_MANAGER.App.Backups"}}</p>
+  <p class="notes">{{localize "SARGAS_COMPENDIUM_MANAGER.App.HowItWorks"}}</p>
+  <p class="notes">{{localize "SARGAS_COMPENDIUM_MANAGER.App.Backups"}}</p>
   {{/unless}}
 
-  <footer class="cm-actions">
+  <footer class="scm-actions">
     <button type="button" data-action="import" {{#unless ok}}disabled{{/unless}}>
-      <i class="fa-solid fa-file-import"></i> {{localize "COMPENDIUM_MANAGER.App.Import"}}
+      <i class="fa-solid fa-file-import"></i> {{localize "SARGAS_COMPENDIUM_MANAGER.App.Import"}}
     </button>
   </footer>
 

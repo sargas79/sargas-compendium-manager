@@ -51,11 +51,11 @@ function defineApplication() {
     #busy = false;
 
     static DEFAULT_OPTIONS = {
-      id: "compendium-manager-import",
-      classes: ["compendium-manager", "compendium-manager-import"],
+      id: "sargas-compendium-manager-import",
+      classes: ["sargas-compendium-manager", "sargas-compendium-manager-import"],
       tag: "div",
       window: {
-        title: "COMPENDIUM_MANAGER.Import.Title",
+        title: "SARGAS_COMPENDIUM_MANAGER.Import.Title",
         icon: "fa-solid fa-file-import",
         resizable: true
       },

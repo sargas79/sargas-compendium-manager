@@ -2,9 +2,9 @@ name: Release shared library
 
 # Publishes the data-only library module (library/) when a library tag is pushed.
 #
-#   git tag library-v1 && git push origin library-v1
+#   git tag library-v2 && git push origin library-v2
 #
-# This is meant to run ONCE. The library's manifest URL points at this fixed tag, so Foundry
+# This runs ONCE per library id. The library's manifest URL points at this fixed tag, so Foundry
 # never offers it an update and never replaces its folder - which is the whole point: a module
 # update would wipe the compendium content stored inside it. Do not bump the library's version
 # or publish a second library tag unless you intend every install to replace its content.
@@ -35,7 +35,7 @@ jobs:
           REPO_URL: https://github.com/${{ github.repository }}
         run: |
           jq empty module.json
-          test "$(jq -r '.id' module.json)" = "sargas-compendium-library"
+          test "$(jq -r '.id' module.json)" = "sargas-compendium-manager-library"
           test "$(jq -r '.manifest' module.json)" = "${REPO_URL}/releases/download/${TAG}/library.json" \
             || { echo "library/module.json manifest must point at the ${TAG} release"; exit 1; }
           test "$(jq -r '.download' module.json)" = "${REPO_URL}/releases/download/${TAG}/library.zip" \
@@ -61,8 +61,8 @@ jobs:
           TAG: ${{ github.ref_name }}
           REPO: ${{ github.repository }}
         run: |
-          NOTES="Data-only companion to Compendium Manager, which Foundry installs automatically
-          as a dependency. Install Compendium Manager instead:
+          NOTES="Data-only companion to Sargas Compendium Manager, which Foundry installs automatically
+          as a dependency. Install Sargas Compendium Manager instead:
           https://github.com/${REPO}/releases/latest/download/module.json
 
           Keep this release: Foundry downloads the library from it."
