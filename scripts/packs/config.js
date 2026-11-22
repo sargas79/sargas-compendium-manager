@@ -1,35 +1,28 @@
-import { MANAGED_TYPES, compendiumCollectionClass, mirrorPackId, sharedPackId } from "../constants.js";
+import { compendiumCollectionClass, isPrimaryGM } from "../constants.js";
 import { SETTINGS, getSetting } from "../settings.js";
 import { readMeta, updateMeta } from "../meta.js";
+import { libraryCollections } from "./library.js";
 import { log } from "../log.js";
 
 /**
  * Pack lock state and ownership live in the world-scoped core setting
  * `compendiumConfiguration`, which is why each world has to be configured separately.
  *
- * This module only ever touches entries for packs it manages, and only writes when the
- * current value actually differs. It never edits core or system files.
+ * This module touches entries only for the library packs — plus, when the GM ticks the option
+ * in the import window, the lock of compendiums they just imported from. It writes only when the
+ * current value actually differs, and never edits core or system files.
  */
 
-/** Collection ids of every pack this module manages in the current world. */
-export function managedCollections() {
-  const ids = [];
-  for (const definition of MANAGED_TYPES) {
-    if (game.packs.get(sharedPackId(definition.key))) ids.push(sharedPackId(definition.key));
-    if (game.packs.get(mirrorPackId(definition.key))) ids.push(mirrorPackId(definition.key));
-  }
-  return ids;
-}
+/** Set while this module is configuring packs, so its own writes are not recorded as the GM's. */
+let applying = false;
 
-function isManaged(collection) {
-  return managedCollections().includes(collection);
+function settingKey() {
+  return compendiumCollectionClass()?.CONFIG_SETTING ?? "compendiumConfiguration";
 }
 
 function currentConfiguration() {
-  const CompendiumCollection = compendiumCollectionClass();
-  const key = CompendiumCollection?.CONFIG_SETTING ?? "compendiumConfiguration";
   try {
-    return game.settings.get("core", key) ?? {};
+    return game.settings.get("core", settingKey()) ?? {};
   } catch (err) {
     log.error("Unable to read the core compendium configuration.", err);
     return {};
@@ -37,39 +30,44 @@ function currentConfiguration() {
 }
 
 /**
- * Ensure managed packs are unlocked, and apply any ownership recorded by the other world.
+ * Ensure library packs are unlocked, and apply the ownership recorded by the other world.
  * Idempotent: a second run performs no writes.
  */
 export async function applyPackConfiguration() {
-  if (!game.user.isGM) return;
+  if (!isPrimaryGM()) return;
 
   const configuration = currentConfiguration();
   const meta = await readMeta();
   const propagateOwnership = getSetting(SETTINGS.syncPackOwnership) === true;
   const recorded = propagateOwnership ? meta?.packOwnership ?? {} : {};
 
-  for (const collection of managedCollections()) {
-    const pack = game.packs.get(collection);
-    if (!pack) continue;
+  applying = true;
+  try {
+    for (const collection of libraryCollections()) {
+      const pack = game.packs.get(collection);
+      if (!pack) continue;
 
-    const existing = configuration[collection] ?? {};
-    const changes = {};
+      const existing = configuration[collection] ?? {};
+      const changes = {};
 
-    if (existing.locked !== false) changes.locked = false;
+      if (existing.locked !== false) changes.locked = false;
 
-    const desiredOwnership = recorded[collection];
-    if (desiredOwnership && !foundry.utils.objectsEqual(existing.ownership ?? {}, desiredOwnership)) {
-      changes.ownership = foundry.utils.deepClone(desiredOwnership);
+      const desiredOwnership = recorded[collection];
+      if (desiredOwnership && !foundry.utils.objectsEqual(existing.ownership ?? {}, desiredOwnership)) {
+        changes.ownership = foundry.utils.deepClone(desiredOwnership);
+      }
+
+      if (!Object.keys(changes).length) continue;
+
+      try {
+        await pack.configure(changes);
+        log.debug(`Configured ${collection}`, changes);
+      } catch (err) {
+        log.error(`Unable to configure pack ${collection}`, err);
+      }
     }
-
-    if (!Object.keys(changes).length) continue;
-
-    try {
-      await pack.configure(changes);
-      log.debug(`Configured ${collection}`, changes);
-    } catch (err) {
-      log.error(`Unable to configure pack ${collection}`, err);
-    }
+  } finally {
+    applying = false;
   }
 }
 
@@ -78,15 +76,16 @@ export async function applyPackConfiguration() {
  * Called when the core compendium configuration changes.
  */
 export async function captureOwnership() {
-  if (!game.user.isGM) return;
+  if (applying || !isPrimaryGM()) return;
   if (getSetting(SETTINGS.syncPackOwnership) !== true) return;
 
   const configuration = currentConfiguration();
   const meta = await readMeta();
-  const recorded = foundry.utils.deepClone(meta?.packOwnership ?? {});
+  if (!meta) return;
+  const recorded = foundry.utils.deepClone(meta.packOwnership ?? {});
 
   let changed = false;
-  for (const collection of managedCollections()) {
+  for (const collection of libraryCollections()) {
     const ownership = configuration[collection]?.ownership;
     if (!ownership) continue;
     if (!foundry.utils.objectsEqual(recorded[collection] ?? {}, ownership)) {
@@ -96,15 +95,35 @@ export async function captureOwnership() {
   }
 
   if (!changed) return;
+  // Pack ownership always lists every role, so merging into the recorded copy loses nothing.
   await updateMeta({ packOwnership: recorded, ownershipWorld: game.world.id, ownershipAt: Date.now() });
   log.debug("Recorded pack ownership for the other world.");
 }
 
-/** Hook target: only react to the core compendium configuration setting. */
-export function isCompendiumConfigurationSetting(setting) {
-  const CompendiumCollection = compendiumCollectionClass();
-  const key = CompendiumCollection?.CONFIG_SETTING ?? "compendiumConfiguration";
-  return setting?.key === `core.${key}`;
+/**
+ * Lock compendiums the GM has just imported from, so the old copy is not edited by accident.
+ * Opt-in from the import window; reversible from the pack's own context menu.
+ * @param {string[]} collections
+ */
+export async function lockPacks(collections) {
+  if (!isPrimaryGM()) return 0;
+  const managed = new Set(libraryCollections());
+  let locked = 0;
+  for (const collection of collections) {
+    if (managed.has(collection)) continue; // never lock the library itself
+    const pack = game.packs.get(collection);
+    if (!pack || pack.locked) continue;
+    try {
+      await pack.configure({ locked: true });
+      locked += 1;
+    } catch (err) {
+      log.error(`Unable to lock ${collection}`, err);
+    }
+  }
+  return locked;
 }
 
-export { isManaged };
+/** Hook target: only react to the core compendium configuration setting. */
+export function isCompendiumConfigurationSetting(setting) {
+  return setting?.key === `core.${settingKey()}`;
+}

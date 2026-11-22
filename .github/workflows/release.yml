@@ -23,6 +23,11 @@ jobs:
       - name: Check out
         uses: actions/checkout@v4
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: Derive version from the tag
         id: version
         run: |
@@ -49,9 +54,10 @@ jobs:
           test -f scripts/module.js
           test -f lang/en.json
           test -f styles/compendium-manager.css
-          for pack in $(jq -r '.packs[].path' module.json); do
-            test -d "$pack" || { echo "Missing pack directory: $pack"; exit 1; }
-          done
+          # Content lives in the separate library module (library/, released by
+          # release-library.yml). Packs shipped here would be wiped on every update.
+          test "$(jq -r '.packs // [] | length' module.json)" = "0"             || { echo "The code module must not declare packs; put them in library/module.json"; exit 1; }
+          jq -e '.relationships.requires[] | select(.id == "sargas-compendium-library")' module.json >/dev/null             || { echo "module.json must require sargas-compendium-library"; exit 1; }
           echo "Manifest looks sane."
 
       - name: Syntax-check the scripts
@@ -64,7 +70,8 @@ jobs:
             node --check "$script"
           done
           jq empty lang/en.json
-          echo "Scripts parse and localisation is valid JSON."
+          node --test tests/*.test.mjs
+          echo "Scripts parse, tests pass, and localisation is valid JSON."
 
       - name: Build module.zip
         run: |

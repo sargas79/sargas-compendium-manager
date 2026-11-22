@@ -1,88 +1,83 @@
 <section class="cm-manager standard-form">
 
-  <header class="cm-summary">
-    <div>
-      <strong>{{localize "COMPENDIUM_MANAGER.App.World"}}</strong>
-      <span>{{world}}</span>
-    </div>
-    <div>
-      <strong>{{localize "COMPENDIUM_MANAGER.App.LastSync"}}</strong>
-      <span>{{lastSync}}</span>
-    </div>
-    <div>
-      <strong>{{localize "COMPENDIUM_MANAGER.App.Pending"}}</strong>
-      <span class="{{#if dirtyTotal}}cm-warn{{/if}}">{{dirtyTotal}}</span>
-    </div>
-    <div>
-      <strong>{{localize "COMPENDIUM_MANAGER.App.AutoSync"}}</strong>
-      <span>
-        {{#if autoSync}}{{localize "COMPENDIUM_MANAGER.App.OnAfter" }} {{debounce}}s{{else}}{{localize "COMPENDIUM_MANAGER.App.Off"}}{{/if}}
-      </span>
-    </div>
-  </header>
+  {{#if ok}}
+  <p class="cm-health cm-health-ok">
+    <i class="fa-solid fa-circle-check"></i> {{localize "COMPENDIUM_MANAGER.Health.Ok"}}
+  </p>
+  {{/if}}
 
+  {{#if missingModule}}
+  <div class="cm-health cm-health-error">
+    <p><i class="fa-solid fa-triangle-exclamation"></i> <strong>{{localize "COMPENDIUM_MANAGER.Health.MissingModuleTitle"}}</strong></p>
+    <p>{{localize "COMPENDIUM_MANAGER.Health.MissingModuleBody"}}</p>
+  </div>
+  {{/if}}
+
+  {{#if shrank}}
+  <div class="cm-health cm-health-error">
+    <p><i class="fa-solid fa-triangle-exclamation"></i> <strong>{{localize "COMPENDIUM_MANAGER.Health.ShrankTitle"}}</strong></p>
+    <ul>
+      {{#each health.shrunk}}
+      <li>{{localize "COMPENDIUM_MANAGER.Health.ShrankPack" label=this.label was=this.was}}</li>
+      {{/each}}
+      {{#if health.metaMissing}}<li>{{localize "COMPENDIUM_MANAGER.Health.MetaMissing"}}</li>{{/if}}
+    </ul>
+    <p>{{localize "COMPENDIUM_MANAGER.Health.ShrankBody"}}</p>
+    <div class="cm-actions">
+      <button type="button" data-action="recheck">
+        <i class="fa-solid fa-rotate"></i> {{localize "COMPENDIUM_MANAGER.Health.Recheck"}}
+      </button>
+      <button type="button" data-action="accept">
+        {{localize "COMPENDIUM_MANAGER.Health.Accept"}}
+      </button>
+    </div>
+  </div>
+  {{/if}}
+
+  {{#unless missingModule}}
   <table class="cm-table">
     <thead>
       <tr>
-        <th>{{localize "COMPENDIUM_MANAGER.App.Type"}}</th>
-        <th class="cm-num">{{localize "COMPENDIUM_MANAGER.App.Shared"}}</th>
-        <th class="cm-num">{{localize "COMPENDIUM_MANAGER.App.Mirror"}}</th>
-        <th class="cm-num">{{localize "COMPENDIUM_MANAGER.App.Dirty"}}</th>
-        <th class="cm-num">{{localize "COMPENDIUM_MANAGER.App.Managed"}}</th>
+        <th>{{localize "COMPENDIUM_MANAGER.App.Pack"}}</th>
+        <th class="cm-num">{{localize "COMPENDIUM_MANAGER.App.Documents"}}</th>
       </tr>
     </thead>
     <tbody>
       {{#each rows}}
-      <tr class="{{#unless this.enabled}}cm-disabled{{/unless}}">
+      <tr>
         <td>
-          {{this.label}}
-          {{#if this.sharedMissing}}<span class="cm-error">{{localize "COMPENDIUM_MANAGER.App.SharedMissing"}}</span>{{/if}}
-          {{#if this.mirrorMissing}}<span class="cm-error">{{localize "COMPENDIUM_MANAGER.App.MirrorMissing"}}</span>{{/if}}
+          {{#if this.missing}}
+          {{this.label}} <span class="cm-error">{{localize "COMPENDIUM_MANAGER.App.PackMissing"}}</span>
+          {{else}}
+          <a data-action="openPack" data-collection="{{this.collection}}">{{this.label}}</a>
+          {{#if this.shrunk}}<span class="cm-error">{{localize "COMPENDIUM_MANAGER.App.PackEmptied"}}</span>{{/if}}
+          {{/if}}
         </td>
-        <td class="cm-num">{{this.sharedCount}}</td>
-        <td class="cm-num">{{this.mirrorCount}}</td>
-        <td class="cm-num {{#if this.dirty}}cm-warn{{/if}}">{{this.dirty}}</td>
-        <td class="cm-num">
-          <button type="button" class="cm-toggle" data-action="toggleType" data-type="{{this.type}}"
-                  aria-label="{{localize 'COMPENDIUM_MANAGER.App.ToggleType'}}">
-            <i class="fa-solid {{#if this.enabled}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i>
-          </button>
-        </td>
+        <td class="cm-num">{{this.count}}</td>
       </tr>
       {{/each}}
     </tbody>
   </table>
 
-  {{#if deletions.length}}
-  <section class="cm-deletions">
-    <h3>{{localize "COMPENDIUM_MANAGER.App.PendingDeletions"}}</h3>
-    <p class="notes">{{localize "COMPENDIUM_MANAGER.App.DeletionsHint"}}</p>
-    <ul>
-      {{#each deletions}}
-      <li>
-        <span class="cm-deletion-name">{{this.name}}</span>
-        <span class="cm-deletion-type">{{this.type}}</span>
-        <button type="button" data-action="discardDeletion" data-pack="{{this.pack}}" data-id="{{this.id}}">
-          {{localize "COMPENDIUM_MANAGER.App.Keep"}}
-        </button>
-      </li>
-      {{/each}}
-    </ul>
-    <button type="button" class="cm-danger" data-action="applyDeletions">
-      <i class="fa-solid fa-trash"></i> {{localize "COMPENDIUM_MANAGER.App.ApplyDeletions"}}
-    </button>
-  </section>
+  {{#if hasWorlds}}
+  <h3>{{localize "COMPENDIUM_MANAGER.App.Worlds"}}</h3>
+  <ul class="cm-worlds">
+    {{#each worlds}}
+    <li>
+      <span>{{this.title}}{{#if this.current}} <span class="cm-muted">({{localize "COMPENDIUM_MANAGER.App.ThisWorld"}})</span>{{/if}}</span>
+      <span class="cm-muted">{{this.when}}</span>
+    </li>
+    {{/each}}
+  </ul>
   {{/if}}
 
+  <p class="notes">{{localize "COMPENDIUM_MANAGER.App.HowItWorks"}}</p>
+  <p class="notes">{{localize "COMPENDIUM_MANAGER.App.Backups"}}</p>
+  {{/unless}}
+
   <footer class="cm-actions">
-    <button type="button" data-action="sync" {{#if running}}disabled{{/if}}>
-      <i class="fa-solid fa-rotate"></i> {{localize "COMPENDIUM_MANAGER.App.SyncNow"}}
-    </button>
-    <button type="button" data-action="pull" {{#if running}}disabled{{/if}}>
-      <i class="fa-solid fa-download"></i> {{localize "COMPENDIUM_MANAGER.App.PullNow"}}
-    </button>
-    <button type="button" data-action="merge">
-      <i class="fa-solid fa-code-merge"></i> {{localize "COMPENDIUM_MANAGER.App.OpenMerge"}}
+    <button type="button" data-action="import" {{#unless ok}}disabled{{/unless}}>
+      <i class="fa-solid fa-file-import"></i> {{localize "COMPENDIUM_MANAGER.App.Import"}}
     </button>
   </footer>
 

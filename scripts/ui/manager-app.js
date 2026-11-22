@@ -1,13 +1,13 @@
 import { MANAGED_TYPES, MODULE_ID, sharedPackId } from "../constants.js";
-import { SETTINGS, getSetting, setSetting } from "../settings.js";
-import { availableDefinitions } from "../packs/shared.js";
-import { getMirrorPack } from "../packs/mirror.js";
-import { getDirtyQueue, getPendingDeletions } from "../sync/state.js";
-import { applyAllDeletions, discardDeletion } from "../sync/deletions.js";
-import { isRunning, pull, syncNow } from "../sync/engine.js";
-import { openMergeWizard } from "./merge-app.js";
-import { t } from "./notify.js";
-import { log } from "../log.js";
+import { readMeta } from "../meta.js";
+import { acceptCurrentLibrary, checkLibrary, lastHealth } from "../health.js";
+import { openImport, onImportComplete } from "./import-app.js";
+import { confirm, t } from "./notify.js";
+
+/**
+ * The status page. With one shared library there is nothing to sync, so this only answers
+ * "is the library healthy, what is in it, and who uses it" — and offers the import window.
+ */
 
 let ManagerApplication = null;
 let instance = null;
@@ -25,14 +25,12 @@ function defineApplication() {
         icon: "fa-solid fa-book-atlas",
         resizable: true
       },
-      position: { width: 700, height: "auto" },
+      position: { width: 560, height: "auto" },
       actions: {
-        sync: CompendiumManagerApp.#onSync,
-        pull: CompendiumManagerApp.#onPull,
-        merge: CompendiumManagerApp.#onMerge,
-        applyDeletions: CompendiumManagerApp.#onApplyDeletions,
-        discardDeletion: CompendiumManagerApp.#onDiscardDeletion,
-        toggleType: CompendiumManagerApp.#onToggleType
+        import: CompendiumManagerApp.#onImport,
+        recheck: CompendiumManagerApp.#onRecheck,
+        accept: CompendiumManagerApp.#onAccept,
+        openPack: CompendiumManagerApp.#onOpenPack
       }
     };
 
@@ -41,92 +39,68 @@ function defineApplication() {
     };
 
     async _prepareContext(_options) {
-      const dirty = getDirtyQueue();
-      const enabled = getSetting(SETTINGS.enabledTypes) ?? {};
-      const available = availableDefinitions();
-      const rows = [];
+      const health = lastHealth() ?? (await checkLibrary());
+      const meta = await readMeta();
+      const shrunk = new Set(health.shrunk.map((s) => s.collection));
 
-      for (const definition of MANAGED_TYPES) {
-        const isEnabled = enabled[definition.type] !== false;
-        const shared = game.packs.get(sharedPackId(definition.key));
-        const mirror = getMirrorPack(definition);
+      const rows = MANAGED_TYPES.map((definition) => {
+        const collection = sharedPackId(definition.key);
+        const pack = game.packs.get(collection);
+        return {
+          collection,
+          label: pack?.title ?? definition.label,
+          missing: !pack,
+          count: health.counts[collection] ?? 0,
+          shrunk: shrunk.has(collection)
+        };
+      });
 
-        let sharedCount = 0;
-        let mirrorCount = 0;
-        if (isEnabled) {
-          try {
-            sharedCount = (await shared?.getIndex())?.size ?? 0;
-            mirrorCount = (await mirror?.getIndex())?.size ?? 0;
-          } catch (err) {
-            log.debug(`Unable to index ${definition.key} for display.`, err);
-          }
-        }
-
-        rows.push({
-          type: definition.type,
-          label: definition.label,
-          enabled: isEnabled,
-          sharedMissing: !shared,
-          mirrorMissing: isEnabled && !mirror,
-          sharedCount,
-          mirrorCount,
-          dirty: dirty.filter((entry) => entry.pack === mirror?.collection).length
-        });
-      }
-
-      const lastSyncAt = getSetting(SETTINGS.lastSyncAt) ?? 0;
+      const worlds = Object.entries(meta?.worlds ?? {})
+        .map(([id, world]) => ({
+          title: world.title ?? id,
+          current: id === game.world.id,
+          when: world.lastOpenedAt ? new Date(world.lastOpenedAt).toLocaleString() : ""
+        }))
+        .sort((a, b) => Number(b.current) - Number(a.current));
 
       return {
+        health,
+        ok: health.status === "ok",
+        missingModule: health.status === "missing-module",
+        shrank: health.status === "shrank",
         rows,
-        managedCount: available.length,
-        dirtyTotal: dirty.length,
-        deletions: getPendingDeletions(),
-        autoSync: getSetting(SETTINGS.autoSync) === true,
-        debounce: getSetting(SETTINGS.syncDebounce),
-        running: isRunning(),
-        world: game.world.id,
-        lastSync: lastSyncAt ? new Date(lastSyncAt).toLocaleString() : t("App.Never")
+        worlds,
+        hasWorlds: worlds.length > 0,
+        system: meta?.systemId ? `${meta.systemId} ${meta.systemVersion ?? ""}`.trim() : game.system.id
       };
     }
 
-    static async #onSync() {
-      await syncNow();
+    static #onImport() {
+      openImport();
+    }
+
+    static async #onRecheck() {
+      await checkLibrary();
       this.render();
     }
 
-    static async #onPull() {
-      await pull();
+    static async #onAccept() {
+      const approved = await confirm({
+        title: t("Health.AcceptTitle"),
+        content: `<p>${t("Health.AcceptBody")}</p>`
+      });
+      if (!approved) return;
+      await acceptCurrentLibrary();
       this.render();
     }
 
-    static #onMerge() {
-      openMergeWizard();
-    }
-
-    static async #onApplyDeletions() {
-      await applyAllDeletions();
-      this.render();
-    }
-
-    static async #onDiscardDeletion(_event, target) {
-      const { pack, id } = target.dataset;
-      if (!pack || !id) return;
-      await discardDeletion({ pack, id });
-      this.render();
-    }
-
-    static async #onToggleType(_event, target) {
-      const type = target.dataset.type;
-      if (!type) return;
-      const enabled = foundry.utils.deepClone(getSetting(SETTINGS.enabledTypes) ?? {});
-      enabled[type] = enabled[type] === false;
-      await setSetting(SETTINGS.enabledTypes, enabled);
-      this.render();
+    static #onOpenPack(_event, target) {
+      game.packs.get(target.dataset.collection)?.render(true);
     }
   };
 }
 
-/** Open (or focus) the manager window. GM only. */
+/** Open (or focus) the status window. GM only. */
 export function openManager() {
   if (!game.user.isGM) return null;
   if (!ManagerApplication) ManagerApplication = defineApplication();
@@ -135,10 +109,15 @@ export function openManager() {
   return instance;
 }
 
-/** Re-render the manager if it is open. */
+/** Re-render the status window if it is open. */
 export function refreshManager() {
   if (instance?.rendered) instance.render();
 }
+
+onImportComplete(async () => {
+  await checkLibrary();
+  refreshManager();
+});
 
 /**
  * Settings-menu entry point. Foundry instantiates and renders the class it is given, so this
