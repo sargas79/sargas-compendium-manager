@@ -1,5 +1,5 @@
-import { compendiumCollectionClass, isPrimaryGM } from "../constants.js";
-import { SETTINGS, getSetting } from "../settings.js";
+import { compendiumCollectionClass, documentClass, isPrimaryGM } from "../constants.js";
+import { SETTINGS, getSetting, setSetting } from "../settings.js";
 import { readMeta, updateMeta } from "../meta.js";
 import { libraryCollections } from "./library.js";
 import { log } from "../log.js";
@@ -69,6 +69,51 @@ export async function applyPackConfiguration() {
   } finally {
     applying = false;
   }
+}
+
+/** Name of the Compendium sidebar folder that holds the shared library. */
+const LIBRARY_FOLDER_NAME = "Sargas Compendium Manager";
+
+/**
+ * Put the shared compendiums in their own folder in the Compendium sidebar, at the top, so they
+ * are easy to find. Runs once per world: if the GM later moves them elsewhere, that is respected.
+ * Packs that are already in a folder (for example one Foundry created from the library's
+ * `packFolders`) are left where they are.
+ */
+export async function placeLibraryInFolder() {
+  if (!isPrimaryGM() || getSetting(SETTINGS.libraryFolderPlaced) === true) return;
+
+  const loose = libraryCollections()
+    .map((collection) => game.packs.get(collection))
+    .filter((pack) => pack && !pack.folder);
+
+  if (loose.length) {
+    let folder = game.folders.find((f) => f.type === "Compendium" && f.name === LIBRARY_FOLDER_NAME && !f.folder);
+    if (!folder) {
+      const roots = game.folders.filter((f) => f.type === "Compendium" && !f.folder);
+      const density = CONST.SORT_INTEGER_DENSITY ?? 100000;
+      const sort = roots.length ? Math.min(...roots.map((f) => f.sort ?? 0)) - density : 0;
+      folder = await documentClass("Folder").create({
+        name: LIBRARY_FOLDER_NAME,
+        type: "Compendium",
+        sorting: "m",
+        sort
+      });
+    }
+
+    applying = true;
+    try {
+      for (const pack of loose) {
+        if (typeof pack.setFolder === "function") await pack.setFolder(folder);
+        else await pack.configure({ folder: folder.id });
+      }
+    } finally {
+      applying = false;
+    }
+    log.info(`Placed ${loose.length} shared compendiums in the "${LIBRARY_FOLDER_NAME}" folder.`);
+  }
+
+  await setSetting(SETTINGS.libraryFolderPlaced, true);
 }
 
 /**

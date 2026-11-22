@@ -71,6 +71,36 @@
   </ul>
   {{/if}}
 
+  {{#if hasLeftovers}}
+  <h3>{{localize "SARGAS_COMPENDIUM_MANAGER.Leftovers.Title"}}</h3>
+  <p class="notes">{{localize "SARGAS_COMPENDIUM_MANAGER.Leftovers.Intro"}}</p>
+  <table class="scm-table">
+    <tbody>
+      {{#each leftovers}}
+      <tr>
+        <td>{{this.label}}</td>
+        <td>
+          {{#if (scmEq this.state "empty")}}{{localize "SARGAS_COMPENDIUM_MANAGER.Leftovers.Empty"}}{{/if}}
+          {{#if (scmEq this.state "copied")}}{{localize "SARGAS_COMPENDIUM_MANAGER.Leftovers.Copied" count=this.count}}{{/if}}
+          {{#if (scmEq this.state "missing")}}<span class="scm-error">{{localize "SARGAS_COMPENDIUM_MANAGER.Leftovers.Missing" count=this.missing}}</span>{{/if}}
+          {{#if (scmEq this.state "failed")}}<span class="scm-error">{{localize "SARGAS_COMPENDIUM_MANAGER.Leftovers.Failed"}}</span>{{/if}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if leftoversNeedImport}}
+  <p class="notes">{{localize "SARGAS_COMPENDIUM_MANAGER.Leftovers.ImportFirst"}}</p>
+  {{/if}}
+  {{#if canRemove}}
+  <div class="scm-actions">
+    <button type="button" data-action="removeLeftovers">
+      <i class="fa-solid fa-trash"></i> {{localize "SARGAS_COMPENDIUM_MANAGER.Leftovers.Remove" count=removableCount}}
+    </button>
+  </div>
+  {{/if}}
+  {{/if}}
+
   <p class="notes">{{localize "SARGAS_COMPENDIUM_MANAGER.App.HowItWorks"}}</p>
   <p class="notes">{{localize "SARGAS_COMPENDIUM_MANAGER.App.Backups"}}</p>
   {{/unless}}

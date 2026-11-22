@@ -64,6 +64,8 @@ the dependency during installation.
 
 Click **Update** next to Sargas Compendium Manager in **Add-on Modules**, then check the Shared Library
 was installed alongside it (see above). Compendium content stored by 1.0.x is not carried over.
+The old "… (Shared Library)" compendiums can then be removed from the status page (see
+*Coming from 1.0.x*).
 
 ### Updating from 2.0.0
 
@@ -89,8 +91,8 @@ Code releases are built by GitHub Actions from a version tag. The tag is the sou
 the version number, so `module.json` does not need editing first:
 
 ```
-git tag v2.1.0
-git push origin v2.1.0
+git tag v2.1.1
+git push origin v2.1.1
 ```
 
 The library module is released **once per library id**, from `library/` as committed. The
@@ -114,7 +116,9 @@ all: whatever you saved is there in the other world the next time you open it.
 
 The **Sargas Compendium Manager** button in the compendium sidebar opens a status page: library health,
 how many entries each shared compendium holds, which worlds use the library, and **Bring in
-compendiums…**
+compendiums…** The shared compendiums themselves sit in the *Sargas Compendium Manager* folder of
+the compendium sidebar; the module puts them there once per world, and leaves them alone if you
+move them.
 
 ## Bringing in compendiums
 
@@ -155,6 +159,9 @@ again is harmless: everything already imported shows as *already in the library*
 - **Backups** — back up the library from Foundry's setup screen: **Backups → Sargas Compendium Manager —
   Shared Library**. Do this before your first big import.
 - The import always previews first, asks before writing, and never deletes from either side.
+- The only thing the module ever deletes is an old 1.0.x "… (Shared Library)" compendium, and
+  only when you click *Remove* and confirm, and only if it is empty or everything in it is
+  already in the shared library.
 - The module refuses to run outside pf2e, and refuses to configure a library that records a
   different system.
 - Only one GM client (Foundry's active GM) ever writes.
@@ -165,11 +172,13 @@ again is harmless: everything already imported shows as *already in the library*
 |---|---|
 | `Data/modules/sargas-compendium-manager-library/packs/` | yes — through the import, and by you editing the shared compendiums |
 | World `compendiumConfiguration` setting | yes — unlock and ownership of the shared compendiums; lock of imported-from compendiums only if you tick that option |
-| World settings of this module | yes — the health-check reference counts and the "welcome shown" flag |
+| World settings of this module | yes — the health-check reference counts and the "welcome shown" and "folder placed" flags |
+| World compendium folders | yes — creates the *Sargas Compendium Manager* folder once, if the shared compendiums are in no folder |
+| Old 1.0.x "… (Shared Library)" world compendiums | deleted only when you confirm *Remove*, and only if nothing in them is missing from the library |
 | Foundry application files | **never** |
 | `Data/systems/pf2e/**` | **never** — read-only source |
 | Other modules' packs and files | **never** |
-| Your existing compendiums | read-only; the import copies out and never writes back |
+| Your other compendiums | read-only; the import copies out and never writes back |
 
 No core class is patched or monkey-patched. Integration is through documented hooks and public
 document APIs.
@@ -226,10 +235,14 @@ Run these in Foundry; results are not claimed here (see *Status*).
     the active GM writes.
 14. Enabling in a non-pf2e world refuses cleanly and creates nothing.
 15. Importing a compendium with 500+ entries completes and shows progress.
+16. The sidebar button sits on its own line under *Create Compendium* / *Create Folder*.
+17. In a world with 1.0.x "… (Shared Library)" compendiums: a notice on load; the status page
+    lists them as empty, already copied, or with entries missing; *Remove* deletes only the first
+    two kinds, after confirming.
 
 ## Status
 
-Version 2.1.0. Written against the published Foundry v14 API documentation. The scripts are
+Version 2.1.1. Written against the published Foundry v14 API documentation. The scripts are
 syntax-checked and the import's matching, hashing, and link rewriting are unit-tested
 (`node --test tests/*.test.mjs`), but **the module has not yet run inside Foundry**. Work through
 the checklist with the console open; the assumptions to confirm first are that a GM can write to
@@ -239,9 +252,16 @@ automatically (test 1).
 ## Coming from 1.0.x (the v0.1 design)
 
 The 1.0.x releases kept a second copy of everything in per-world "mirror" compendiums (`… (Shared Library)`).
-2.x does not use them. If you have any, they are left alone: bring their content in with
-**Bring in compendiums…** if you want it, then delete them by hand. Content that 1.0.x stored in
-its own shared packs lived inside the manager's folder, which the update replaces.
+2.x does not use them, and their name makes them easy to confuse with the real shared library.
+From 2.1.1 the status page lists them in each world:
+
+- **empty**, or **all already in the shared library** — *Remove old compendiums* deletes them
+  after you confirm.
+- **entries not in the shared library yet** — bring them in first with **Bring in compendiums…**
+  (they are listed there), then remove them.
+
+Do this in each world: each one has its own copies. Content that 1.0.x stored in its own shared
+packs lived inside the manager's folder, which the update replaces.
 
 ## Known limitations
 

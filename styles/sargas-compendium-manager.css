@@ -83,8 +83,19 @@
   cursor: pointer;
 }
 
+/* Sidebar button: its own full-width line under "Create Compendium" / "Create Folder". */
+.header-actions:has(> .scm-open-manager) {
+  flex-wrap: wrap;
+}
+
 .scm-open-manager {
-  flex: 0 0 100%;
+  flex: none;
+  width: 100%;
+  height: auto;
+}
+
+.header-actions > .scm-open-manager {
+  flex: 1 1 100%;
 }
 
 /* Import window */

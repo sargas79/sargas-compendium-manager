@@ -5,7 +5,8 @@ export const SETTINGS = {
   debug: "debug",
   // Internal, world-scoped state. Never shown in the configuration sheet.
   recordedCounts: "recordedCounts",
-  welcomeShown: "welcomeShown"
+  welcomeShown: "welcomeShown",
+  libraryFolderPlaced: "libraryFolderPlaced"
 };
 
 export function registerSettings() {
@@ -41,6 +42,14 @@ export function registerSettings() {
   });
 
   register(SETTINGS.welcomeShown, {
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: false
+  });
+
+  /** Set once the shared compendiums have been put in their sidebar folder in this world. */
+  register(SETTINGS.libraryFolderPlaced, {
     scope: "world",
     config: false,
     type: Boolean,
