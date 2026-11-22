@@ -2,19 +2,6 @@
    Deliberately minimal: the module inherits whatever theme the world uses, so only layout
    and a few state colours are defined here. */
 
-.compendium-manager .cm-summary {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 0.5rem 1rem;
-  margin-bottom: 0.75rem;
-}
-
-.compendium-manager .cm-summary div {
-  display: flex;
-  flex-direction: column;
-  font-size: var(--font-size-13, 0.85rem);
-}
-
 .compendium-manager .cm-table {
   width: 100%;
   border-collapse: collapse;
@@ -28,25 +15,13 @@
   border-bottom: 1px solid var(--color-border-light-tertiary, rgba(0, 0, 0, 0.1));
 }
 
-.compendium-manager .cm-table .cm-num {
+.compendium-manager .cm-num {
   text-align: right;
+  min-width: 3rem;
+}
+
+.compendium-manager .cm-table .cm-num {
   width: 5rem;
-}
-
-.compendium-manager .cm-disabled {
-  opacity: 0.5;
-}
-
-.compendium-manager .cm-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  width: auto;
-}
-
-.compendium-manager .cm-warn {
-  font-weight: bold;
 }
 
 .compendium-manager .cm-error {
@@ -56,61 +31,115 @@
 }
 
 .compendium-manager .cm-muted {
-  opacity: 0.6;
+  opacity: 0.65;
+  font-size: var(--font-size-12, 0.8rem);
 }
 
 .compendium-manager .cm-actions {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  margin-top: 0.5rem;
 }
 
-.compendium-manager .cm-deletions ul {
+.compendium-manager .cm-primary {
+  font-weight: bold;
+}
+
+/* Status page */
+
+.compendium-manager .cm-health {
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+}
+
+.compendium-manager .cm-health p {
+  margin: 0.2rem 0;
+}
+
+.compendium-manager .cm-health-ok {
+  color: var(--color-level-success, #2a7a2a);
+}
+
+.compendium-manager .cm-health-error {
+  border: 1px solid var(--color-level-error, #a33);
+}
+
+.compendium-manager .cm-worlds {
   list-style: none;
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.75rem;
   padding: 0;
-  max-height: 12rem;
-  overflow-y: auto;
 }
 
-.compendium-manager .cm-deletions li {
+.compendium-manager .cm-worlds li {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
   padding: 0.15rem 0;
 }
 
-.compendium-manager .cm-deletion-name {
-  flex: 1;
+.compendium-manager a[data-action="openPack"] {
+  cursor: pointer;
 }
 
-.compendium-manager .cm-deletion-type {
-  opacity: 0.6;
-  font-size: var(--font-size-12, 0.8rem);
+.cm-open-manager {
+  flex: 0 0 100%;
 }
 
-.compendium-manager .cm-danger {
-  color: var(--color-level-error, #a33);
+/* Import window */
+
+.compendium-manager-import .window-content {
+  overflow-y: auto;
 }
 
-.compendium-manager .cm-merge-source {
+.compendium-manager .cm-pick {
+  max-height: 22rem;
+  overflow-y: auto;
+  margin-bottom: 0.5rem;
+}
+
+.compendium-manager .cm-pick fieldset {
+  margin: 0 0 0.5rem;
+}
+
+.compendium-manager .cm-pick-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  padding: 0.1rem 0;
 }
 
-.compendium-manager .cm-merge-source select {
+.compendium-manager .cm-pick-title {
   flex: 1;
+}
+
+.compendium-manager .cm-option {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.25rem 0;
+}
+
+.compendium-manager .cm-options {
+  margin: 0.5rem 0;
+}
+
+.compendium-manager .cm-options .notes {
+  margin: 0 0 0.4rem 1.6rem;
 }
 
 .compendium-manager .cm-counts {
   display: flex;
-  gap: 1rem;
+  gap: 1.25rem;
   list-style: none;
   margin: 0 0 0.5rem;
   padding: 0;
   flex-wrap: wrap;
+}
+
+.compendium-manager .cm-count-decision strong {
+  color: var(--color-level-warning, #b86e00);
 }
 
 .compendium-manager .cm-bulk {
@@ -121,21 +150,20 @@
   margin-bottom: 0.5rem;
 }
 
-.compendium-manager .cm-entries {
-  display: block;
-  max-height: 22rem;
+.compendium-manager .cm-preview {
+  max-height: 24rem;
   overflow-y: auto;
 }
 
-.compendium-manager .cm-target {
-  opacity: 0.7;
-  font-size: var(--font-size-12, 0.8rem);
+.compendium-manager .cm-preview-pack {
+  margin-bottom: 0.4rem;
 }
 
-.compendium-manager .cm-status-conflict td:nth-child(2) {
-  font-weight: bold;
+.compendium-manager .cm-preview-pack summary {
+  cursor: pointer;
+  padding: 0.2rem 0;
 }
 
-.compendium-manager .cm-status-identical {
-  opacity: 0.6;
+.compendium-manager .cm-working progress {
+  width: 100%;
 }

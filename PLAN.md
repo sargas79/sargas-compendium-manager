@@ -1,4 +1,8 @@
-# Compendium Manager — Design Plan
+# Compendium Manager — Design Plan (v0.1)
+
+> **Superseded by [PLAN-v2.md](PLAN-v2.md).** v0.2 drops the mirror packs and the sync engine:
+> both worlds edit one shared library held in a separate data-only module. This document is kept
+> as the record of the v0.1 design.
 
 A Foundry VTT **v14** module that gives two worlds a single shared compendium library,
 by mirroring world-local compendiums into module-owned packs on disk.

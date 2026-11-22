@@ -1,0 +1,91 @@
+name: Release shared library
+
+# Publishes the data-only library module (library/) when a library tag is pushed.
+#
+#   git tag library-v1 && git push origin library-v1
+#
+# This is meant to run ONCE. The library's manifest URL points at this fixed tag, so Foundry
+# never offers it an update and never replaces its folder - which is the whole point: a module
+# update would wipe the compendium content stored inside it. Do not bump the library's version
+# or publish a second library tag unless you intend every install to replace its content.
+#
+# Unlike the code module, the version is NOT derived from the tag: library/module.json is
+# published exactly as committed.
+
+on:
+  push:
+    tags:
+      - "library-v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Verify the manifest
+        working-directory: library
+        env:
+          TAG: ${{ github.ref_name }}
+          REPO_URL: https://github.com/${{ github.repository }}
+        run: |
+          jq empty module.json
+          test "$(jq -r '.id' module.json)" = "sargas-compendium-library"
+          test "$(jq -r '.manifest' module.json)" = "${REPO_URL}/releases/download/${TAG}/library.json" \
+            || { echo "library/module.json manifest must point at the ${TAG} release"; exit 1; }
+          test "$(jq -r '.download' module.json)" = "${REPO_URL}/releases/download/${TAG}/library.zip" \
+            || { echo "library/module.json download must point at the ${TAG} release"; exit 1; }
+          test "$(jq -r '.esmodules // [] | length' module.json)" = "0" \
+            || { echo "The library module must not ship code"; exit 1; }
+          for pack in $(jq -r '.packs[].path' module.json); do
+            test -d "$pack" || { echo "Missing pack directory: $pack"; exit 1; }
+          done
+          echo "Library manifest looks sane."
+
+      - name: Build library.zip
+        working-directory: library
+        run: |
+          cp ../LICENSE LICENSE
+          zip -r ../library.zip module.json README.md LICENSE packs -x '*/.DS_Store'
+          cp module.json ../library.json
+          unzip -l ../library.zip
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          NOTES="Data-only companion to Compendium Manager. Foundry installs it automatically as a
+          dependency; you should not need this manifest URL directly:
+          https://github.com/${REPO}/releases/download/${TAG}/library.json"
+
+          if gh release view "${TAG}" >/dev/null 2>&1; then
+            echo "Release ${TAG} already exists - updating its assets."
+            gh release edit "${TAG}" --title "Shared library (${TAG})" --notes "$NOTES" --draft=false --latest=false
+            gh release upload "${TAG}" library.json library.zip --clobber
+          else
+            # --latest=false keeps releases/latest pointing at the code module, whose manifest
+            # URL depends on it.
+            gh release create "${TAG}" \
+              library.json library.zip \
+              --title "Shared library (${TAG})" \
+              --notes "$NOTES" \
+              --latest=false \
+              --verify-tag
+          fi
+
+      - name: Verify the release carries both assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          ASSETS="$(gh release view "${TAG}" --json assets --jq '.assets[].name')"
+          echo "$ASSETS"
+          echo "$ASSETS" | grep -qx 'library.json' || { echo "library.json missing from the release"; exit 1; }
+          echo "$ASSETS" | grep -qx 'library.zip'  || { echo "library.zip missing from the release"; exit 1; }

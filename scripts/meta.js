@@ -1,5 +1,5 @@
 import { META_DOC_ID, META_DOC_NAME, MODULE_ID, documentClass } from "./constants.js";
-import { getMetaPack } from "./packs/shared.js";
+import { getMetaPack } from "./packs/library.js";
 import { log } from "./log.js";
 
 /**
@@ -7,7 +7,8 @@ import { log } from "./log.js";
  * live and still travel between worlds: module settings are world-scoped and would not follow.
  *
  * Shape of `flags[MODULE_ID].meta`:
- *   { systemId, systemVersion, foundryVersion, lastWorld, lastSyncAt, packOwnership }
+ *   { systemId, systemVersion, foundryVersion, packOwnership, ownershipWorld, ownershipAt,
+ *     worlds: { [worldId]: { title, lastOpenedAt } } }
  */
 
 let cachedDocument = null;
@@ -46,9 +47,8 @@ export async function ensureMeta() {
     systemId: game.system.id,
     systemVersion: game.system.version,
     foundryVersion: game.version,
-    lastWorld: game.world.id,
-    lastSyncAt: 0,
-    packOwnership: {}
+    packOwnership: {},
+    worlds: {}
   };
 
   const JournalEntry = documentClass("JournalEntry");
@@ -92,9 +92,11 @@ export async function updateMeta(patch) {
   }
 }
 
-/** Record that this world just wrote to the shared library. */
-export function stampSync() {
-  return updateMeta({ lastWorld: game.world.id, lastSyncAt: Date.now() });
+/** Record that this world opened the library, for the status page. */
+export function recordWorld() {
+  return updateMeta({
+    worlds: { [game.world.id]: { title: game.world.title ?? game.world.id, lastOpenedAt: Date.now() } }
+  });
 }
 
 /** Drop the cached document, e.g. after a pack reload. */

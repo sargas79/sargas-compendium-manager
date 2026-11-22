@@ -1,0 +1,124 @@
+{
+  "id": "sargas-compendium-library",
+  "title": "Compendium Manager — Shared Library",
+  "description": "Data-only companion to Compendium Manager. Holds the shared compendium packs that every world enabling it can see. It contains no code and is never updated, so Foundry never replaces its folder and your content is safe from module updates.",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Diego Vescovini"
+    }
+  ],
+  "url": "https://github.com/sargas79/sargas-compendium-manager",
+  "manifest": "https://github.com/sargas79/sargas-compendium-manager/releases/download/library-v1/library.json",
+  "download": "https://github.com/sargas79/sargas-compendium-manager/releases/download/library-v1/library.zip",
+  "license": "https://github.com/sargas79/sargas-compendium-manager/blob/main/LICENSE",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "pf2e",
+        "type": "system",
+        "compatibility": {}
+      }
+    ]
+  },
+  "packs": [
+    {
+      "name": "cm-actors",
+      "label": "Shared Actors",
+      "path": "packs/cm-actors",
+      "type": "Actor",
+      "system": "pf2e",
+      "ownership": {
+        "PLAYER": "NONE",
+        "TRUSTED": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "cm-items",
+      "label": "Shared Items",
+      "path": "packs/cm-items",
+      "type": "Item",
+      "system": "pf2e",
+      "ownership": {
+        "PLAYER": "NONE",
+        "TRUSTED": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "cm-journals",
+      "label": "Shared Journals",
+      "path": "packs/cm-journals",
+      "type": "JournalEntry",
+      "ownership": {
+        "PLAYER": "NONE",
+        "TRUSTED": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "cm-tables",
+      "label": "Shared Roll Tables",
+      "path": "packs/cm-tables",
+      "type": "RollTable",
+      "ownership": {
+        "PLAYER": "NONE",
+        "TRUSTED": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "cm-macros",
+      "label": "Shared Macros",
+      "path": "packs/cm-macros",
+      "type": "Macro",
+      "ownership": {
+        "PLAYER": "NONE",
+        "TRUSTED": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "cm-scenes",
+      "label": "Shared Scenes",
+      "path": "packs/cm-scenes",
+      "type": "Scene",
+      "ownership": {
+        "PLAYER": "NONE",
+        "TRUSTED": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "cm-cards",
+      "label": "Shared Cards",
+      "path": "packs/cm-cards",
+      "type": "Cards",
+      "ownership": {
+        "PLAYER": "NONE",
+        "TRUSTED": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "Shared Library",
+      "sorting": "m",
+      "packs": [
+        "cm-actors",
+        "cm-items",
+        "cm-journals",
+        "cm-tables",
+        "cm-macros",
+        "cm-scenes",
+        "cm-cards"
+      ]
+    }
+  ]
+}
