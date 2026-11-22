@@ -2,7 +2,10 @@
 
 All notable changes to this module are documented here.
 
-## [0.2.0] — Unreleased
+## [2.0.0] — 2026-11-22
+
+Released as 2.0.0 because 0.1.0 was published as v1.0.0 and v1.0.1, and a lower version would
+never be offered as an update. Breaking: document UUIDs change and a new dependency is required.
 
 One shared library, nothing to sync. Enable the module in both worlds and they see the same
 compendiums. See PLAN-v2.md for the review of v0.1 and the reasoning.

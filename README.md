@@ -64,8 +64,8 @@ Code releases are built by GitHub Actions from a version tag. The tag is the sou
 the version number, so `module.json` does not need editing first:
 
 ```
-git tag v0.2.0
-git push origin v0.2.0
+git tag v2.0.0
+git push origin v2.0.0
 ```
 
 The library module is released **once**, from `library/` as committed:
@@ -208,17 +208,17 @@ Run these in Foundry; results are not claimed here (see *Status*).
 
 ## Status
 
-Version 0.2.0. Written against the published Foundry v14 API documentation. The scripts are
+Version 2.0.0. Written against the published Foundry v14 API documentation. The scripts are
 syntax-checked and the import's matching, hashing, and link rewriting are unit-tested
 (`node --test tests/*.test.mjs`), but **the module has not yet run inside Foundry**. Work through
 the checklist with the console open; the assumptions to confirm first are that a GM can write to
 module packs at runtime in v14 (tests 2–3) and that `relationships.requires` installs the library
 automatically (test 1).
 
-## Upgrading from v0.1
+## Upgrading from 1.0.x (the v0.1 design)
 
-v0.1 kept a second copy of everything in per-world "mirror" compendiums (`… (Shared Library)`).
-v0.2 does not use them. If you have any, they are left alone: bring their content in with
+The 1.0.x releases kept a second copy of everything in per-world "mirror" compendiums (`… (Shared Library)`).
+2.0.0 does not use them. If you have any, they are left alone: bring their content in with
 **Bring in compendiums…** if you want it, then delete them by hand. The v0.1 shared packs inside
 the manager's own folder are replaced by the update.
 

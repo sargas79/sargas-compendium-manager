@@ -1,7 +1,8 @@
 # Compendium Manager v0.2 — "Enable it in both worlds and forget it"
 
 Status: **approved 2026-11-22 — one library, no sync (§2), with a separate data module, no v0.1
-migration.** Implemented in v0.2.0; not yet run inside Foundry.
+migration.** Implemented and released as 2.0.0 (the v0.1 design had been published as v1.0.x);
+not yet run inside Foundry.
 
 Goal from the brief: enable the module in both worlds and they stay in sync, with no buttons
 to press, no counts to watch, and no per-compendium wizard runs before it is usable.
